@@ -1,0 +1,21 @@
+import {Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class <Tên service>{
+
+      api = environment.api_url
+
+      constructor(
+        private http: HttpClient
+      ) {
+      }
+
+
+}
+
+
+ng generate service services/api/ <tên>

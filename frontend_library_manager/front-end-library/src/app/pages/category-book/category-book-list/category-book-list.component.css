@@ -1,0 +1,19 @@
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+a:hover {
+  cursor: pointer;
+  text-decoration: none!important;
+}
+
+.no-result {
+  display: flex;
+  justify-content: center
+}
+
+.btn_tool {
+  background: #ff7236;
+  color: #fff
+}

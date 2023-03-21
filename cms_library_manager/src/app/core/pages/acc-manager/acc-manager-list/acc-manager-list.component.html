@@ -1,0 +1,279 @@
+<div class="row" id="table-inverse">
+  <div class="col-12">
+    <div>
+      <div>
+        <div class="row">
+          <div class="col-md-9">
+            <h4 class="card-title">QUẢN LÝ TÀI KHOẢN</h4>
+          </div>
+          <div class="col-md-3 d-flex justify-content-end" style="padding-bottom: 12px">
+            <a class="btn btn-info text-light add_new" type="button" data-toggle="modal" (click)="accountInfoForm.reset()" data-target="#exampleModal-accmanager-new">Thêm mới <span><i class="fa-solid fa-plus"></i></span></a>
+          </div>
+          <div class="search">
+            <ul>
+              <li>
+                <p-autoComplete [(ngModel)]="usernameSearch" [showEmptyMessage]="false" [suggestions]="usernameComplete"  (completeMethod)="searchUsername($event)" [minLength]="1" (onLazyLoad)="pageChange($event)" placeholder="Tên đăng nhập"></p-autoComplete>
+              </li>
+              <li>
+                <p-autoComplete [(ngModel)]="fullNameSearch" [showEmptyMessage]="false" [suggestions]="fullNameComplete"  (completeMethod)="searchFullName($event)" [minLength]="1" (onLazyLoad)="pageChange($event)" placeholder="Họ và tên"></p-autoComplete>
+              </li>
+              <li>
+                <p-autoComplete [(ngModel)]="emailSearch" [showEmptyMessage]="false" [suggestions]="emailComplete"  (completeMethod)="searchEmail($event)" [minLength]="1" (onLazyLoad)="pageChange($event)" placeholder="Email"></p-autoComplete>
+              </li>
+              <li>
+                <select class="form-control" (change)="selectRole()" [(ngModel)]="roleIdSearch">
+                  <option [value]="null" [disabled]="true" selected>Nhóm quyền</option>
+                    <option *ngFor="let roleID of listRoleManager" value="{{roleID.id}}">
+                    <span>{{roleID.code}}</span>
+                  </option>
+                </select>
+              </li>
+              <li>
+                <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onSearch()" >Tìm kiếm</a>
+              </li>
+              <li>
+                <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onReset()" >Làm Mới</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!--        <div class="card-content">-->
+      <!--          <div class="card-body">-->
+      <!--            <p>-->
+      <!--              You can also invert the colors—with light text on dark-->
+      <!--              backgrounds—with-->
+      <!--              <code class="highlighter-rouge">.table-dark</code>.-->
+      <!--            </p>-->
+      <!--          </div>-->
+<!--      <div class="table-responsive">-->
+<!--        <table class="table table-light mb-0" >-->
+<!--          <thead>-->
+<!--          <tr>-->
+<!--            <th>STT</th>-->
+<!--            <th>TÊN ĐĂNG NHẬP</th>-->
+<!--            <th>TÊN ĐẦY ĐỦ</th>-->
+<!--            <th>NGÀY SINH</th>-->
+<!--            <th>EMAIL</th>-->
+<!--            <th>ĐIỆN THOẠI</th>-->
+<!--            <th>ROLE</th>-->
+<!--            <th>THAO TÁC</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+<!--          <tr *ngFor="let i of accManager, index as index">-->
+<!--            <td>{{index +1}}</td>-->
+<!--            <td>{{i.username}}</td>-->
+<!--            <td>{{i.full_name}}</td>-->
+<!--            <td>{{i.date_of_birth}}</td>-->
+<!--            <td>{{i.email}}</td>-->
+<!--            <td>{{i.phone}}</td>-->
+<!--            <td>{{i.role_id}}</td>-->
+<!--            <td>-->
+<!--              <a type="button" data-toggle="modal" data-target="#exampleModal-accmanager" (click)="editAccount(i)"><i class="fa-solid fa-pen-to-square" style="color: #00cc00"></i></a>-->
+<!--              <a type="button" data-toggle="modal" data-target="#delete-acc-manager" (click)="selectAccount(i)"><i class="fa-solid fa-trash-can" style="color: red"></i></a>-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--          </tbody>-->
+<!--        </table>-->
+<!--      </div>-->
+      <p-table [value]="accManager"
+               [paginator]="true"
+               [lazy]="true"
+               [scrollable]="true"
+               [showPageLinks]="true"
+               (onLazyLoad)="pageChange($event)"
+               [rows]="size"
+               [(first)]="first"
+               [totalRecords]="totalElement"
+               [loadingIcon]="''"
+               [showLoader]="false"
+               [loading]="loading">
+        <ng-template pTemplate="header" class="dark">
+          <tr>
+            <th class="flex-60px">STT</th>
+            <th pSortableColumn="username">TÊN ĐĂNG NHẬP<p-sortIcon field="username"></p-sortIcon></th>
+            <th pSortableColumn="full_name">HỌ VÀ TÊN<p-sortIcon field="full_name"></p-sortIcon></th>
+            <th pSortableColumn="date_of_birth">NGÀY SINH<p-sortIcon field="date_of_birth"></p-sortIcon></th>
+            <th pSortableColumn="email">EMAIL<p-sortIcon field="email"></p-sortIcon></th>
+            <th pSortableColumn="phone">ĐIỆN THOẠI<p-sortIcon field="phone"></p-sortIcon></th>
+            <th pSortableColumn="role_id">NHÓM QUYỀN<p-sortIcon field="role_id"></p-sortIcon></th>
+            <th class="flex-100px">THAO TÁC</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+          <app-acc-manager-skeleton></app-acc-manager-skeleton>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-i let-rowIndex="rowIndex">
+          <tr *ngIf="!loading" >
+            <td class="flex-60px">{{rowIndex +1}}</td>
+            <td >{{i.username}}</td>
+            <td>{{i.full_name}}</td>
+            <td>{{i.date_of_birth}}</td>
+            <td>{{i.email}}</td>
+            <td>{{i.phone}}</td>
+            <td>{{i.roleCode}}</td>
+            <td class="flex-100px">
+              <a type="button" data-toggle="modal" data-target="#exampleModal-accmanager" (click)="editAccount(i)"><i class="fa-solid fa-pen-to-square" style="color: #00cc00"></i></a>
+              <a type="button" data-toggle="modal" data-target="#delete-acc-manager" (click)="selectAccount(i)"><i class="fa-solid fa-trash-can" style="color: red"></i></a>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft" let-state>
+          <td colspan="5">Tổng số bản ghi: {{state.totalRecords}}</td>
+        </ng-template>
+      </p-table>
+
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal-accmanager-new" tabindex="-1" aria-labelledby="exampleModalLabel_add" aria-hidden="true">
+        <div class="modal-dialog modal-lg" [formGroup]="accountInfoForm">
+          <div class="modal-content border-0">
+            <div class="modal-header" style="background: #2C3333">
+              <h5 class="modal-title" id="exampleModalLabel_add" style="color: white" >Thêm mới</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" style="color: white">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group row">
+                <label for="username_add" class="col-sm-3 col-form-label">Tên đăng nhập<span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="username_add" formControlName = "username">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="password_add" class="col-sm-3 col-form-label">Mật khẩu<span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="password" class="form-control" id="password_add" formControlName = "password">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="full-name_add" class="col-sm-3 col-form-label">Họ và tên<span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="full-name_add" formControlName = "full_name">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="date_of_birth_add" class="col-sm-3 col-form-label">Ngày sinh<span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="date" class="form-control" id="date_of_birth_add" formControlName = "date_of_birth">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="email_add" class="col-sm-3 col-form-label">Email<span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="email_add" formControlName = "email">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="phone_number_add" class="col-sm-3 col-form-label">Số điện thoại<span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="number" class="form-control" id="phone_number_add" formControlName = "phone">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Nhóm quyền<span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <select class="form-control" formControlName="role_id" >
+                    <option *ngFor="let roleID of listRoleManager" value="{{roleID.id}}">
+                      <span>{{roleID.code}}</span>
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer border-0">
+              <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onAddNewAccount()" data-dismiss="modal">Thêm mới</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="exampleModal-accmanager" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" [formGroup]="accountInfoForm">
+          <div class="modal-content border-0">
+            <div class="modal-header" style="background: #2C3333">
+              <h5 class="modal-title" id="exampleModalLabel" style="color: white">Chỉnh sửa</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" style="color: white">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group row">
+                <label for="username" class="col-sm-3 col-form-label">Tên đăng nhập<span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="username" formControlName = "username">
+                </div>
+              </div>
+<!--              <div class="form-group row">-->
+<!--                <label for="password" class="col-sm-3 col-form-label">Mật khẩu<span style="color: red"> *</span></label>-->
+<!--                <div class="col-sm-9">-->
+<!--                  <input type="password" class="form-control" id="password" formControlName ="password">-->
+<!--                </div>-->
+<!--              </div>-->
+              <div class="form-group row">
+                <label for="full-name" class="col-sm-3 col-form-label">Họ và tên<span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="full-name" formControlName ="full_name">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="date_of_birth" class="col-sm-3 col-form-label">Ngày sinh<span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="date" class="form-control" id="date_of_birth" formControlName ="date_of_birth">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="email" class="col-sm-3 col-form-label">Email<span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="email" formControlName ="email">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label  class="col-sm-3 col-form-label">Số điện thoại<span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control"  formControlName ="phone">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Nhóm quyền<span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <select class="form-control" formControlName="role_id" >
+                    <option *ngFor="let roleID of listRoleManager" value="{{roleID.id}}">
+                      <span>{{roleID.code}}</span>
+                    </option>
+                  </select>
+                </div>
+              </div>
+          </div>
+            <div class="modal-footer border-0">
+              <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onEditAccount()" data-dismiss="modal">Cập Nhật</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="delete-acc-manager" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header border-0">
+              <h5 class="modal-title" id="">Bạn có muốn xóa không ?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer border-0">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+              <button type="button" class="btn btn-primary" (click)="onDeleteAccount()" data-dismiss="modal">Có</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>

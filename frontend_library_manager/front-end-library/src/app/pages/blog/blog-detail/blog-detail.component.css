@@ -1,0 +1,29 @@
+
+.blog{
+  margin-left: 50px;
+}
+.title_detail{
+  width: 100%;
+  display: block;
+  color: #ff7236;
+  font-size: 30px;
+  font-weight: 700;
+  /*text-align: center;*/
+}
+.content_detail{
+
+  text-indent:50px;
+  margin-top: 50px;
+  height: auto;
+}
+a{
+  text-decoration: none;
+}
+.entry-content{
+  height: 650px;
+
+}
+.blog-detail-main{
+  height: 1250px;
+}
+

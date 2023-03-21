@@ -1,0 +1,40 @@
+
+td i {
+  font-size: 20px;
+  padding: 5px;
+}
+.fa-solid.fa-pen-to-square{
+  color: #00cc00;
+}
+.fa-solid.fa-trash-can{
+  color: red;
+}
+.search {
+  width: 100%
+}
+
+.search ul {
+  display: flex;
+  list-style-type: none;
+  margin-top: 10px;
+  padding-left: 1px;
+}
+.search li {
+  padding-right: 8px
+}
+
+.search .btn {
+  padding: 5px 18px
+}
+
+p-table{
+  width: 100%;
+  margin-left: 16px;
+}
+.add_new{
+  margin-right: 16px;
+}
+.fa-hands-asl-interpreting{
+  color: #ffcb2a;
+}
+

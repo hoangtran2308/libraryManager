@@ -1,0 +1,24 @@
+.user-account {
+  display: flex;
+  float: right;
+}
+
+.user-item:hover {
+  cursor: pointer;
+}
+
+.user-account .user-img>img {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+}
+
+.user-item {
+  font-size: 16px
+}
+.user-img{
+  margin-right: 5px;
+}
+.header-topbar a i{
+  margin-left: 5px;
+}

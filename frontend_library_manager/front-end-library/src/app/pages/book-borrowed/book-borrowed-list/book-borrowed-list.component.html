@@ -1,0 +1,77 @@
+<section class="page-banner services-banner">
+  <div class="container">
+    <div class="banner-header">
+      <h2>LỊCH SỬ MƯỢN SÁCH</h2>
+      <span class="underline center"></span>
+      <!--      <p class="lead">Việc đọc rất quan trọng. Nếu bạn biết cách đọc, cả thế giới sẽ mở ra cho bạn.</p>-->
+    </div>
+    <div class="breadcrumb">
+      <ul>
+        <li><a [routerLink]="['/pages/home']">Trang chủ</a></li>
+        <li>Lịch sử mượn sách</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<div class="col-md-12">
+  <div class="page type-page status-publish hentry">
+    <div class="entry-content">
+      <div class="woocommerce table-tabs" id="responsiveTabs">
+            <div class="tab-content">
+              <div id="sectionA" class="tab-pane fade in active">
+                <form method="post" action="http://libraria.demo.presstigers.com/cart-page.html" >
+                  <table class="table table-bordered shop_table cart">
+                    <thead>
+                    <tr>
+<!--                      <th class="product-name">&nbsp;</th>-->
+                      <th class="product-name">STT</th>
+                      <th class="product-quantity " >Tên sách</th>
+                      <th class="product-price">Số lượng </th>
+                      <th class="product-price">Ngày mượn </th>
+                      <th class="product-price">Ngày trả </th>
+                      <th class="product-price">Ghi chú </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="cart_item" *ngFor="let i of bookBorrowedHistory, index as index">
+                      <td data-title="cbox" class="product-cbox">
+                          {{index+1}}
+                      </td>
+                      <td data-title="Product" class="product-name">
+                          {{i.bookName}}
+                      </td>
+                      <td data-title="action" class="product-action">
+                          {{i.amount}}
+                      </td>
+                      <td data-title="Price" class="product-price">
+                        {{i.startDate}}
+                      </td>
+                      <td class="Product">
+                        {{i.endDate}}
+                      </td>
+                      <td data-title="Product" class="product-name">
+                        {{i.note}}
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </form>
+              </div>
+      </div>
+        <nav class="navigation pagination text-center" style="display:inherit">
+          <h2 class="screen-reader-text">Posts navigation</h2>
+          <div class="nav-links" (click)="onHeader()">
+            <a class="prev page-numbers" [class.disabled]="page<=0"
+               (click)="previousPage()"><i class="fa fa-long-arrow-left"></i>  Trở lại</a>
+            <a class="page-numbers"
+               *ngFor="let item of listPage" (click)="onPageChange(item)"
+               [class.current]="item==page">{{item+1}}</a>
+            <a class="next page-numbers" [class.disabled]="page>=totalPage-1"
+               (click)="nextPage()">Tiếp <i class="fa fa-long-arrow-right"></i></a>
+          </div>
+        </nav>
+    </div>
+  </div>
+
+</div>
+</div>

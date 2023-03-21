@@ -1,0 +1,218 @@
+<div class="row" id="table-inverse" >
+    <div class="col-12">
+        <div class="">
+            <div class="">
+              <div class="row">
+                <div class="col-md-9">
+                  <h4 class="card-title">QUẢN LÝ NHÂN VIÊN</h4>
+                </div>
+                <div class="col-md-3 d-flex justify-content-end" style="padding-bottom: 12px">
+                  <a class="btn btn-info text-light add_new" type="button" data-toggle="modal" (click)="staffManagerInfoForm.reset()"  data-target="#exampleModal-staffmanager-new" >Thêm mới <span><i class="fa-solid fa-plus"></i></span></a>
+                </div>
+                <div class="search">
+                  <ul>
+                    <li>
+                      <p-autoComplete [(ngModel)]="fullNameSearch" [showEmptyMessage]="false" [suggestions]="fullNameComplete"  (completeMethod)="onSearchFullName($event)" [minLength]="1" (onLazyLoad)="pageChange($event)" placeholder="Họ và tên"></p-autoComplete>
+                    </li>
+                    <li>
+                      <input class="form-control" type="text" [(ngModel)]="phoneSearch" placeholder="Số điện thoại">
+                    </li>
+                    <li>
+                      <input class="form-control" type="text" [(ngModel)]="addressSearch" placeholder="Địa chỉ">
+                    </li>
+                    <li>
+                      <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onSearch()">Tìm kiếm</a>
+                    </li>
+                    <li>
+                      <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onReset()">Làm Mới </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          <!--        <div class="card-content">-->
+          <!--          <div class="card-body">-->
+          <!--            <p>-->
+          <!--              You can also invert the colors—with light text on dark-->
+          <!--              backgrounds—with-->
+          <!--              <code class="highlighter-rouge">.table-dark</code>.-->
+          <!--            </p>-->
+          <!--          </div>-->
+    <!--      <div class="table-responsive">-->
+    <!--        <table class="table table-light mb-0">-->
+    <!--          <thead>-->
+    <!--          <tr>-->
+    <!--            <th>STT</th>-->
+    <!--            <th>TÊN ĐĂNG NHẬP</th>-->
+    <!--            <th>SỐ ĐIỆN THOẠI</th>-->
+    <!--            <th>ĐỊA CHỈ</th>-->
+    <!--            <th>NGÀY SINH</th>-->
+    <!--            <th>THAO TÁC</th>-->
+    <!--          </tr>-->
+    <!--          </thead>-->
+    <!--          <tbody>-->
+    <!--          <tr *ngFor="let i of staffManager, index as index">-->
+    <!--            <td>{{index +1}}</td>-->
+    <!--            <td>{{i.name}}</td>-->
+    <!--            <td>{{i.phoneNum}}</td>-->
+    <!--            <td>{{i.address}}</td>-->
+    <!--            <td>{{i.dateOfBirth}}</td>-->
+    <!--            <td>-->
+    <!--              <a type="button" data-toggle="modal" data-target="#exampleModal-staffmanager" (click)="editStaff(i)"><i class="fa-solid fa-pen-to-square" style="color: #00cc00"></i></a>-->
+    <!--              <a type="button" data-toggle="modal" data-target="#delete-staff-manager" (click)="selectStaff(i)"><i class="fa-solid fa-trash-can" style="color: red"></i></a>-->
+    <!--            </td>-->
+    <!--          </tr>-->
+    <!--          </tbody>-->
+    <!--        </table>-->
+    <!--      </div>-->
+            <p-table [value]="staffManager"
+                     [paginator]="true"
+                     [lazy]="true"
+                     [scrollable]="true"
+                     [showPageLinks]="true"
+                     (onLazyLoad)="pageChange($event)"
+                     [rows]="size"
+                     [(first)]="first"
+                     [totalRecords]="totalElement"
+                     [loadingIcon]="''"
+                     [showLoader]="false"
+                     [loading]="loading">
+              <ng-template pTemplate="header" class="dark">
+                  <tr>
+                    <th class="flex-60px">STT</th>
+                    <th pSortableColumn="name">HỌ VÀ TÊN<p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="phoneNum">SỐ ĐIỆN THOẠI<p-sortIcon field="phoneNum"></p-sortIcon></th>
+                    <th pSortableColumn="address">ĐỊA CHỈ<p-sortIcon field="address"></p-sortIcon></th>
+                    <th pSortableColumn="dateOfBirth">NGÀY SINH<p-sortIcon field="dateOfBirth"></p-sortIcon></th>
+                    <th class="flex-100px">THAO TÁC</th>
+                  </tr>
+                </ng-template>
+                  <ng-template pTemplate="loadingbody" >
+                    <app-staff-skeleton></app-staff-skeleton>
+                  </ng-template>
+
+                <ng-template pTemplate="body" let-i let-rowIndex="rowIndex">
+                  <tr *ngIf="!loading" >
+                    <td class="flex-60px">{{ rowIndex +1}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.phoneNum}}</td>
+                    <td>{{i.address}}</td>
+                    <td>{{i.dateOfBirth}}</td>
+                    <td class="flex-100px">
+                      <a type="button" data-toggle="modal" data-target="#exampleModal-staffmanager" (click)="editStaff(i)"><i class="fa-solid fa-pen-to-square" style="color: #00cc00"></i></a>
+                      <a type="button" data-toggle="modal" data-target="#delete-staff-manager" (click)="selectStaff(i)"><i class="fa-solid fa-trash-can" style="color: red"></i></a>
+                    </td>
+                  </tr>
+                </ng-template>
+
+                  <ng-template pTemplate="paginatorleft" let-state>
+                    <td colspan="5">Tổng số bản ghi: {{state.totalRecords}}</td>
+                  </ng-template>
+            </p-table>
+
+          <!-- Modal -->
+            <div class="modal fade" id="exampleModal-staffmanager-new" tabindex="-1" aria-labelledby="exampleModalLabel_add" aria-hidden="true">
+            <div class="modal-dialog modal-lg" [formGroup]="staffManagerInfoForm">
+              <div class="modal-content border-0">
+                <div class="modal-header" style="background: #2C3333">
+                  <h5 class="modal-title" id="exampleModalLabel_add" style="color: white" >Thêm mới</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color: white">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group row">
+                    <label for="username_add" class="col-sm-3 col-form-label">Họ và tên<span style="color: red"> *</span></label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="username_add" formControlName="name">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="password_add" class="col-sm-3 col-form-label">Số điện thoại<span style="color: red"> *</span></label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="password_add" formControlName="phoneNum">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="full-name_add" class="col-sm-3 col-form-label">Địa chỉ<span style="color: red"> *</span></label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="full-name_add" formControlName="address" >
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="date_of_birth_add" class="col-sm-3 col-form-label">Ngày sinh<span style="color: red"> *</span></label>
+                    <div class="col-sm-9">
+                      <input type="date" class="form-control" id="date_of_birth_add" formControlName="dateOfBirth">
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer border-0">
+                  <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onAddNewStaff()" data-dismiss="modal">Thêm mới</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+            <div class="modal fade" id="exampleModal-staffmanager" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" [formGroup]="staffManagerInfoForm">
+              <div class="modal-content border-0">
+                <div class="modal-header" style="background: #2C3333">
+                  <h5 class="modal-title" id="exampleModalLabel" style="color: white">Chỉnh sửa</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color: white">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Họ và tên<span style="color: red"> *</span></label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" formControlName="name">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Số điện thoại<span style="color: red"> *</span></label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control"  formControlName="phoneNum">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label  class="col-sm-3 col-form-label">Địa chỉ<span style="color: red"> *</span></label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" formControlName="address" >
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label  class="col-sm-3 col-form-label">Ngày sinh<span style="color: red"> *</span></label>
+                    <div class="col-sm-9">
+                      <input type="date" class="form-control"  formControlName="dateOfBirth">
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer border-0">
+                  <button type="button" class="btn btn-primary" style="font-size: 18px"  (click)="onEditStaff()" data-dismiss="modal">Cập Nhật</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal -->
+            <div class="modal fade" id="delete-staff-manager" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header border-0">
+                  <h5 class="modal-title" id="">Bạn có muốn xóa không ?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-footer border-0">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onDeleteStaff()">Có</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>

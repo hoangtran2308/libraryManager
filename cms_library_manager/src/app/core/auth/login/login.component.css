@@ -1,0 +1,18 @@
+.login-container {
+    background-image: url(/src/assets/images/background-auth.jpg);
+}
+
+#btn_spinner {
+  display: none
+}
+
+.forget-password {
+  border: none
+}
+
+.pass-form {
+  padding-bottom: 12px;
+}
+.err{
+  color:red;
+}

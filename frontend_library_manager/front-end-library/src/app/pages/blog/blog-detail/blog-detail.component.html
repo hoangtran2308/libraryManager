@@ -1,0 +1,67 @@
+
+<!-- Start: Page Banner -->
+<section class="page-banner services-banner">
+  <div class="container">
+    <div class="banner-header">
+      <h2>Chi Tiết Bài Viết</h2>
+      <span class="underline center"></span>
+<!--      <p class="lead">Proin ac eros pellentesque dolor pharetra tempo.</p>-->
+    </div>
+    <div class="breadcrumb">
+      <ul>
+        <li><a href="index-2.html" [routerLink]="'/pages/home'" routerLinkActive="active" >Trang chủ</a></li>
+        <li>Bài viết</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<!-- End: Page Banner -->
+<!-- Start: Blog Section -->
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main">
+      <div class="blog-detail-main">
+        <div class="container">
+          <div class="row">
+            <div class="blog-page">
+              <div class="blog-section">
+                  <div class="blog-detail">
+                    <header class="entry-header">
+                    </header>
+                    <div class="post-thumbnail">
+                      <figure>
+                        <img alt="blog" src="{{dataDetail?.img}}" class="img-fluid"/>
+                      </figure>
+                    </div>
+                    <div class="post-detail">
+                      <div class="post-detail-head">
+                        <div class="post-social-share">
+                          <ul>
+                            <li>
+                              <a href="https://www.facebook.com/hho4ng">
+                                <i class="fa fa-facebook"></i>
+                                <span>/ Facebook</span>
+                              </a>
+                            </li>
+                            <li><a href="https://www.youtube.com/watch?v=JHSRTU31T14&list=RDJHSRTU31T14&start_radio=1"><i class="fa fa-twitter"></i> <span>/ Twitter</span></a></li>
+                            <li><a href="https://www.youtube.com/watch?v=JHSRTU31T14&list=RDJHSRTU31T14&start_radio=1"><i class="fa fa-google-plus"></i> <span>/ Google+</span></a></li>
+                            <li><a href="https://www.youtube.com/watch?v=JHSRTU31T14&list=RDJHSRTU31T14&start_radio=1"><i class="fa fa-youtube-play"></i> <span>/ Youtube</span></a></li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="entry-content">
+                        <h3 class="title_detail">{{dataDetail?.title}}</h3>
+                        <p class="content_detail">{{dataDetail?.content}}</p>
+                      </div>
+                    </div>
+
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+

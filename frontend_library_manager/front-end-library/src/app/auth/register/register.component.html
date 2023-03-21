@@ -1,0 +1,115 @@
+<div id="wrapper">
+  <div class="form-login" >
+    <form class="form-login-group" (ngSubmit)="onRegister()" [formGroup]="registerFroms" >
+      <h1 class="text-center">Đăng Ký</h1>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="exampleInputEmail1">Tên tài khoản</label>
+        <div class="col-sm-9">
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="username">
+        <div class="err" *ngIf="registerFroms.get('username')?.invalid &&( registerFroms.get('username')?.dirty ||registerFroms.get('username')?.touched)">
+          <div *ngIf="registerFroms.get('username')?.hasError('required')">
+            Vui lòng nhập tên đăng nhập
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="exampleInputEmail1">Họ tên</label>
+        <div class="col-sm-9">
+        <input type="text" class="form-control" aria-describedby="emailHelp" formControlName = "full_name">
+        <div class="err" *ngIf="registerFroms.get('full_name')?.invalid &&( registerFroms.get('full_name')?.dirty ||registerFroms.get('full_name')?.touched)">
+          <div *ngIf="registerFroms.get('full_name')?.hasError('required')">
+            Vui lòng nhập họ tên
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="exampleInputEmail1">Số điện thoại</label>
+        <div class="col-sm-9">
+        <input type="number" class="form-control" formControlName = "phone">
+        <div class="err" *ngIf="registerFroms.get('phone')?.invalid &&( registerFroms.get('phone')?.dirty ||registerFroms.get('phone')?.touched)">
+          <div *ngIf="registerFroms.get('phone')?.hasError('required')">
+            Vui lòng nhập số điện thoại
+          </div>
+          <div *ngIf="registerFroms.get('phone')?.hasError('pattern')">
+            Vui lòng nhập đúng số điện thoại
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="exampleInputEmail1">Ngày sinh</label>
+        <div class="col-sm-9">
+        <input type="date" class="form-control" aria-describedby="emailHelp" formControlName = "date_of_birth">
+        <div class="err" *ngIf="registerFroms.get('date_of_birth')?.invalid &&( registerFroms.get('dob')?.dirty ||registerFroms.get('date_of_birth')?.touched)">
+          <div *ngIf="registerFroms.get('date_of_birth')?.hasError('required')">
+            Vui lòng nhập ngày sinh
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="exampleInputEmail2">Email</label>
+        <div class="col-sm-9">
+        <input type="email" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" formControlName="email">
+        <div  *ngIf="registerFroms.get('email')?.invalid &&( registerFroms.get('email')?.dirty || registerFroms.get('email')?.touched)">
+          <div *ngIf="registerFroms.get('email')?.hasError('required')">
+            Vui lòng nhập email
+          </div>
+          <div *ngIf="registerFroms.get('email')?.hasError('email')">
+            Hãy nhập đúng dạng @gmail.com
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="form-group row" id="password">
+        <label class="col-sm-3 col-form-label" for="exampleInputPassword1">Mật Khẩu</label>
+        <div class="col-sm-9">
+        <input type="{{!showEye ? 'password' : 'text'}}" class="form-control" id="exampleInputPassword1" formControlName="password">
+        <div class="err" *ngIf="registerFroms.get('password')?.invalid &&( registerFroms.get('password')?.dirty ||registerFroms.get('password')?.touched)">
+          <div *ngIf="registerFroms.get('password')?.hasError('required')">
+            Vui lòng nhập mật khẩu mới
+          </div>
+          <div *ngIf="registerFroms.get('password')?.hasError('pattern')">
+            Vui lòng nhập mật khẩu mới có ít nhất 8 kí tự bao gồm cả số , chữ hoa và chữ thường
+          </div>
+        </div>
+        <div id="eye" (click)="showEye = !showEye">
+          <i class="fa-solid fa-eye" *ngIf="showEye"></i>
+          <i class=" fa-solid fa-eye-slash" *ngIf="!showEye"></i>
+        </div>
+      </div>
+      </div>
+      <div class="form-group row" id="password1">
+        <label class="col-sm-3 col-form-label" for="exampleInputPassword">Nhập lại mật khẩu</label>
+        <div class="col-sm-9">
+        <input type="{{!showEye1 ? 'password' : 'text'}}" class="form-control" id="exampleInputPassword" formControlName="re_password">
+        <div class="err" *ngIf="(registerFroms.get('re_password')?.touched ||registerFroms.get('re_password')?.dirty)">
+          <div *ngIf="registerFroms.get('re_password')?.hasError('required')">
+            Vui lòng nhập lại mật khẩu
+          </div>
+          <div *ngIf="!registerFroms.get('re_password')?.hasError('required') && noMatch">
+            Mật khẩu mới và mật khẩu xác nhận không giống nhau
+          </div>
+        </div>
+        <div id="eye1" (click)="showEye1 = !showEye1">
+          <i class="fa-solid fa-eye" *ngIf="showEye1"></i>
+          <i class=" fa-solid fa-eye-slash" *ngIf="!showEye1"></i>
+        </div>
+      </div>
+      </div>
+      <div class="register">
+        <button type="submit" class="btn btn-primary form-control" (click)="onAddNewAccount()">Đăng Ký</button>
+      </div>
+      <div>
+        <p>Bạn đã có tài khoản ?</p>
+      </div>
+      <div class="return-login">
+        <button type="submit" class="btn btn-primary form-control" [routerLink]="'/auth/login'">Trở lại đăng nhập</button>
+      </div>
+    </form>
+  </div>
+</div>
+<p-toast></p-toast>
+

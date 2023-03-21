@@ -1,0 +1,19 @@
+#backtop {
+  height: 50px;
+  width: 50px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 40px;
+  right: 20px;
+  cursor: pointer;
+  background: #ccc;
+}
+
+a:hover {
+  cursor: pointer;
+}
+

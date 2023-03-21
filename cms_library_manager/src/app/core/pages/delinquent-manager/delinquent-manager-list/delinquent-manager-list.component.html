@@ -1,0 +1,260 @@
+<div class="row" id="table-inverse" >
+    <div class="col-12">
+      <div class="">
+        <div class="">
+          <div class="row">
+            <div class="col-md-9">
+              <h4 class="card-title">QUẢN LÍ VI PHẠM </h4>
+            </div>
+            <div class="col-md-3 d-flex justify-content-end" style="padding-bottom: 12px">
+              <a class="btn btn-info text-light add_new" type="button" data-toggle="modal" data-target="#exampleModal-collect-money-new" (click)="moneyInfoForm.reset()">Thêm mới <span><i class="fa-solid fa-plus"></i></span></a>
+            </div>
+            <div class="search">
+              <ul>
+
+                <li>
+                  <input class="form-control" type="text" [(ngModel)]="usernameSearch" placeholder="Tên đăng nhập" name="usernameSearch">
+                </li>
+                <li>
+                  <input class="form-control" type="text" [(ngModel)]="fullNameSearch" placeholder="Tên người vi phạm">
+                </li>
+
+                <li>
+  <!--              <select class="form-control" (change)="selectCategory()" [(ngModel)]="staffId">-->
+  <!--                <option [value]="null" [disabled]="true" selected>Tên nhân viên</option>-->
+  <!--                <option *ngFor="let staff of listStaffManager" value="{{staff.id}}">-->
+  <!--                  <span>{{staff.name}}</span>-->
+  <!--                </option>-->
+  <!--              </select>-->
+                  <p-dropdown [options]="listStaffManager" [(ngModel)]="staffId" optionLabel="name" optionValue="id" placeholder="Tên nhân viên" [filter]="true"></p-dropdown>
+              </li>
+                <li>
+                  <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onSearch()">Tìm kiếm</a>
+                </li>
+                <li>
+                  <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onReset()">Làm mới</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!--        <div class="card-content">-->
+        <!--          <div class="card-body">-->
+        <!--            <p>-->
+        <!--              You can also invert the colors—with light text on dark-->
+        <!--              backgrounds—with-->
+        <!--              <code class="highlighter-rouge">.table-dark</code>.-->
+        <!--            </p>-->
+        <!--          </div>-->
+  <!--      <div class="table-responsive">-->
+  <!--        <table class="table table-light mb-0">-->
+  <!--          <thead>-->
+  <!--          <tr>-->
+  <!--            <th>STT</th>-->
+  <!--            <th>TÊN </th>-->
+  <!--            <th>SỐ TIỀN BỊ PHẠT  </th>-->
+  <!--            <th>SỐ TIỀN ĐÃ NỘP </th>-->
+  <!--            <th>MÃ NHÂN VIÊN</th>-->
+  <!--            <th>MÃ THẺ THƯ VIỆN</th>-->
+  <!--            <th>THAO TÁC</th>-->
+  <!--          </tr>-->
+  <!--          </thead>-->
+  <!--          <tbody>-->
+  <!--          <tr *ngFor="let i of delinquentManager, index as index">-->
+  <!--            <td>{{index +1}}</td>-->
+  <!--            <td class="text-bold-500">{{i.fullName}}</td>-->
+  <!--            <td>{{i.finedAmount}}</td>-->
+  <!--            <td>{{i.proceeds}}</td>-->
+  <!--            <td>{{i.staffId}}</td>-->
+  <!--            <td>{{i.userId}}</td>-->
+  <!--            <td>-->
+  <!--              <a type="button" data-toggle="modal" data-target="#exampleModal-collect-money" (click)="editCollectMoney(i)"><i class="fa-solid fa-pen-to-square"></i></a>-->
+  <!--              <a type="button" data-toggle="modal" data-target="#delete-collect-money" (click)="selectCollectMoney(i)"><i class="fa-solid fa-trash-can"></i></a>-->
+  <!--            </td>-->
+  <!--          </tr>-->
+  <!--          </tbody>-->
+  <!--        </table>-->
+  <!--      </div>-->
+        <p-table [value]="delinquentManager"
+                 [paginator]="true"
+                 [lazy]="true"
+                 [scrollable]="true"
+                 [showPageLinks]="true"
+                 (onLazyLoad)="pageChange($event)"
+                 [rows]="size"
+                 [(first)]="first"
+                 [totalRecords]="totalElement"
+                 [loadingIcon]="''"
+                 [showLoader]="false"
+                 [loading]="loading">
+          <ng-template pTemplate="header" class="dark">
+            <tr class="text-justify">
+              <th class="flex-60px">STT</th>
+              <th pSortableColumn="username">TÊN ĐĂNG NHẬP
+                <p-sortIcon field="username"></p-sortIcon>
+              </th>
+              <th pSortableColumn="fullName">TÊN NGƯỜI VI PHẠM
+                <p-sortIcon field="fullName"></p-sortIcon>
+              </th>
+              <th pSortableColumn="finedAmount">SỐ TIỀN BỊ PHẠT
+                <p-sortIcon field="finedAmount"></p-sortIcon>
+              </th>
+              <th pSortableColumn="proceeds">SỐ TIỀN ĐÃ NỘP
+                <p-sortIcon field="proceeds"></p-sortIcon>
+              </th>
+              <th pSortableColumn="staffId">TÊN NHÂN VIÊN
+                <p-sortIcon field="staffId"></p-sortIcon>
+              </th>
+              <th class="flex-100px">THAO TÁC</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="loadingbody">
+            <app-delinquent-skeleton></app-delinquent-skeleton>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-i let-rowIndex="rowIndex">
+            <tr *ngIf="!loading">
+              <td class="flex-60px">{{rowIndex +1}}</td>
+              <td>{{i.username}}</td>
+              <td class="text-bold-500">{{i.fullName}}</td>
+              <td class="flex-end">{{i.finedAmount.toLocaleString()}}</td>
+              <td class="flex-end">{{i.proceeds.toLocaleString()}}</td>
+              <td>{{i.staff_name}}</td>
+              <td class="flex-100px">
+                <a type="button" data-toggle="modal" data-target="#exampleModal-collect-money" (click)="editCollectMoney(i)"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a type="button" data-toggle="modal" data-target="#delete-collect-money" (click)="selectCollectMoney(i)"><i class="fa-solid fa-trash-can"></i></a>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="paginatorleft" let-state>
+            <td colspan="5">Tổng số bản ghi: {{state.totalRecords}}</td>
+          </ng-template>
+        </p-table>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal-collect-money-new" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" [formGroup]="moneyInfoForm">
+            <div class="modal-content border-0">
+              <div class="modal-header" style="background: #2C3333">
+                <h5 class="modal-title" style="color: white">Thêm mới </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color: white">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Tên Tài Khoản <span style="color: red">*</span></label>
+                  <div class="col-sm-9">
+  <!--                  <select class="form-control" formControlName="userId">-->
+  <!--                    <option *ngFor="let username of listAccount" value="{{username.id}}">-->
+  <!--                      <span>{{username.username}}</span>-->
+  <!--                    </option>-->
+  <!--                  </select>-->
+                    <p-dropdown [options]="listAccount" optionValue="id" formControlName="userId" optionLabel="username" placeholder="Tên tài khoản" [filter]="true"></p-dropdown>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="forfeit1" class="col-sm-3 col-form-label">Số Tiền Bị Phạt <span style="color: red">*</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="forfeit1" formControlName="finedAmount">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="monney1" class="col-sm-3 col-form-label">Số Tiền Đã Nộp <span style="color: red">*</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="monney1" formControlName="proceeds">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Tên Nhân Viên <span style="color: red">*</span></label>
+                  <div class="col-sm-9">
+  <!--                  <select class="form-control" formControlName="staffId">-->
+  <!--                    <option *ngFor="let staff of listStaffManager" value="{{staff.id}}">-->
+  <!--                      <span>{{staff.name}}</span>-->
+  <!--                    </option>-->
+  <!--                  </select>-->
+                    <p-dropdown [options]="listStaffManager" optionLabel="name" optionValue="id" formControlName="staffId" placeholder="Tên nhân viên" [filter]="true"></p-dropdown>
+                  </div>
+                </div>
+
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" style="font-size: 18px"  data-dismiss="modal" (click)="onAddNewCollectMoney()">Thêm mới</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <!--modal-->
+        <div class="modal fade" id="exampleModal-collect-money" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" [formGroup]="moneyInfoForm">
+            <div class="modal-content border-0">
+              <div class="modal-header" style="background: #2C3333">
+                <h5 class="modal-title" style="color: white">Chỉnh sửa </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color: white">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Tên Tài Khoản <span style="color: red">*</span></label>
+                  <div class="col-sm-9">
+                    <select class="form-control" formControlName="userId">
+                      <option *ngFor="let username of listAccount" value="{{username.id}}">
+                        <span>{{username.username}}</span>
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="forfeit1" class="col-sm-3 col-form-label">Số Tiền Bị Phạt <span style="color: red">*</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control"  formControlName="finedAmount">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="monney1" class="col-sm-3 col-form-label">Số Tiền Đã Nộp <span style="color: red">*</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control"  formControlName="proceeds">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Tên Nhân Viên <span style="color: red">*</span></label>
+                  <div class="col-sm-9">
+                    <select class="form-control" formControlName="staffId">
+                      <option *ngFor="let staff of listStaffManager" value="{{staff.id}}">
+                        <span>{{staff.name}}</span>
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="modal-footer border-0">
+                  <button type="button" class="btn btn-primary" style="font-size: 18px"  data-dismiss="modal" (click)="onEditCollectMoney()">Cập nhật</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="delete-collect-money" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header border-0">
+                <h5 class="modal-title" id="">Bạn có muốn xóa không ?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                <button type="button" class="btn btn-primary" (click)="onDeleteAccount()" data-dismiss="modal">Có</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+</div>
+<p-toast></p-toast>

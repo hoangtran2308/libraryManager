@@ -1,0 +1,172 @@
+<section class="page-banner services-banner">
+  <div class="container">
+    <div class="banner-header">
+      <h2>THÔNG TIN CÁ NHÂN</h2>
+      <span class="underline center"></span>
+      <!--      <p class="lead">Việc đọc rất quan trọng. Nếu bạn biết cách đọc, cả thế giới sẽ mở ra cho bạn.</p>-->
+    </div>
+    <div class="breadcrumb">
+      <ul>
+        <li><a [routerLink]="['/pages/home']">Trang chủ</a></li>
+        <li>Thông tin cá nhân</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<section style="background-color: #eee;"  >
+  <div class="container py-5">
+    <div class="row modal-user-profile" >
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img src="https://scontent.fhan14-1.fna.fbcdn.net/v/t1.15752-9/298182637_427583702800936_4407066053301121095_n.png?_nc_cat=101&ccb=1-7&_nc_sid=ae9488&_nc_ohc=jR8ctzehaHMAX98SNbR&tn=J4KBjojM1jLGrWpi&_nc_ht=scontent.fhan14-1.fna&oh=03_AVLUFB_uEjwHFOCgmu3XXEZcfSxBar67UKFZVRC0XR4OSA&oe=6348CC06" alt="avatar"
+                 class="rounded-circle img-fluid" style="width: 200px;">
+            <h5 class="my-3">{{currentAccount.fullName}}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4" >
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3" >
+                <p class="mb-0">Họ và tên</p>
+              </div>
+              <div class="col-sm-9">
+                <input disabled class="form-control" type="text" [(ngModel)]="currentAccount.fullName" >
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Tên tài khoản</p>
+              </div>
+              <div class="col-sm-9">
+                <input disabled class="form-control" type="text" [(ngModel)]="currentAccount.username">
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Ngày sinh</p>
+              </div>
+              <div class="col-sm-9">
+                <input disabled class="form-control" type="text" [(ngModel)]="currentAccount.dateOfBirth" >
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <input disabled class="form-control" type="text" [(ngModel)]="currentAccount.email" >
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Số điện thoại</p>
+              </div>
+              <div class="col-sm-9">
+                <input disabled class="form-control" type="text" [(ngModel)]="currentAccount.phone" >
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Ngày tạo</p>
+              </div>
+              <div class="col-sm-9">
+                <input disabled class="form-control" type="text" [(ngModel)]="currentAccount.createDate" >
+              </div>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-end edit_user_profile">
+              <a class="btn text-light edit_item" type="button" data-target="#user-profile-update" data-toggle="modal" (click)="editAccount(currentAccount)">Cập nhật thông tin <i class="fa-regular fa-pen-to-square"></i></a>
+              <a class="btn text-light edit_item" type="button" data-toggle="modal" data-target="#exampleModal-password">Đổi mật khẩu <i class="fa-solid fa-wrench"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!--  Modal-->
+  <div class="modal fade" id="user-profile-update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" [formGroup]="accountInfoForm" >
+      <div class="modal-content border-0">
+        <div class="modal-header" >
+          <h4 class="modal-title">Cập nhật thông tin cá nhân</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Họ và tên<span style="color: red"> *</span></label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" formControlName="fullName">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Tên tài khoản<span style="color: red"> *</span></label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" formControlName="username">
+            </div>
+          </div>
+        </div>
+
+<!--        <div class="modal-body ">-->
+<!--          <div class="form-group row">-->
+<!--            <label class="col-sm-2 col-form-label ">Mật khẩu<span style="color: red"> *</span></label>-->
+<!--            <div class="col-sm-10">-->
+<!--              <input type="text" class="form-control" formControlName="">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+        <div class="modal-body">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Ngày sinh<span style="color: red"> *</span></label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" formControlName="dateOfBirth">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Email<span style="color: red"> *</span></label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" formControlName="email">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Số điện thoại<span style="color: red"> *</span></label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" formControlName="phone">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer border-0" >
+          <button type="button" class="btn" style="background: #ff7236; color: #ffffff" (click)="onEditAccountInfo()" data-dismiss="modal">Cập Nhật</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<app-change-password></app-change-password>
+
+<p-toast></p-toast>

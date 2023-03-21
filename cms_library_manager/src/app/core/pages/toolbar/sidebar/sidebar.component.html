@@ -1,0 +1,22 @@
+<nav id="sidebar" class="sidebar js-sidebar m-0" style="height: 100%">
+  <div class="sidebar-content js-simplebar">
+    <a class="sidebar-brand mb-2">
+      <h1 [routerLink]="['/pages/chart']" routerLinkActive="$router_link-active$" class="align-middle" style="color: white"><i class="fa-solid fa-book-bookmark" style="font-size: 30px !important;"></i>  Library</h1>
+    </a>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-item" *ngFor="let item of menu">
+        <a class="sidebar-link collapsed" *ngIf="item.roles.includes(accountRole)"
+           [routerLink]="item.path" routerLinkActive="active" (click)="onClickMenu()">
+          <i class="{{item.icon}}"></i> <span class="align-middle">{{item.name}}</span>
+        </a>
+      </li>
+
+<!--      <li class="sidebar-item">-->
+<!--        <a class="sidebar-link collapsed" [routerLink]="'author-manager'" routerLinkActive="active" (click)="onClickMenu()">-->
+<!--          <i class="fa-solid fa-bars-progress"></i> <span class="align-middle">Quản lý tác giả</span>-->
+<!--        </a>-->
+<!--      </li>-->
+    </ul>
+  </div>
+</nav>

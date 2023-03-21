@@ -1,0 +1,144 @@
+<div class="row" id="table-inverse">
+    <div class="col-12">
+      <div class="">
+        <div class="">
+          <div class="row">
+            <div class="col-md-9">
+              <h4 class="card-title">QUẢN LÝ NHÓM QUYỀN</h4>
+            </div>
+            <div class="col-md-3 d-flex justify-content-end" style="padding-bottom: 12px">
+              <a class="btn btn-info text-light add_new" type="button" data-toggle="modal" (click)="roleManagerInfoForm.reset()" data-target="#exampleModal-role-manager-new">Thêm mới <span><i class="fa-solid fa-plus"></i></span></a>
+            </div>
+          </div>
+        </div>
+        <!--        <div class="card-content">-->
+        <!--          <div class="card-body">-->
+        <!--            <p>-->
+        <!--              You can also invert the colors—with light text on dark-->
+        <!--              backgrounds—with-->
+        <!--              <code class="highlighter-rouge">.table-dark</code>.-->
+        <!--            </p>-->
+        <!--          </div>-->
+        <p-table [value]="roleManager"
+                 [paginator]="true"
+                 [rows]="size"
+                 [lazy]="true"
+                 [showLoader]="true"
+                 [loading]="loading">
+          <ng-template pTemplate="header" class="dark">
+            <tr>
+              <th>STT</th>
+              <th pSortableColumn="code">MÃ
+                <p-sortIcon field="code"></p-sortIcon>
+              </th>
+              <th pSortableColumn="name">TÊN NHÓM QUYỀN
+                <p-sortIcon field="name"></p-sortIcon>
+              </th>
+              <th class="flex-100px">THAO TÁC</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="loadingbody">
+  <!--          <app-role-skeleton></app-role-skeleton>-->
+          </ng-template>
+
+
+
+          <ng-template pTemplate="body" let-i let-rowIndex="rowIndex">
+            <tr *ngIf="!loading">
+              <td>{{rowIndex +1}}</td>
+              <td>{{i.code}}</td>
+              <td>{{i.name}}</td>
+              <td class="flex-100px">
+                <a type="button" data-toggle="modal" data-target="#exampleModal-role-manager" (click)="editRole(i)"><i class="fa-solid fa-pen-to-square" style="color: #00cc00"></i></a>
+                <a type="button" data-toggle="modal" data-target="#delete-role-manager" (click)="selectRole(i)"><i class="fa-solid fa-trash-can" style="color: red"></i></a>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal-role-manager-new" tabindex="-1" aria-labelledby="exampleModalLabel_add" aria-hidden="true">
+          <div class="modal-dialog modal-lg" [formGroup]="roleManagerInfoForm" >
+            <div class="modal-content border-0">
+              <div class="modal-header" style="background: #2C3333">
+                <h5 class="modal-title" id="exampleModalLabel_add" style="color: white">Thêm mới</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color: white">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group row">
+                  <label  class="col-sm-3 col-form-label">Mã<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" formControlName="code">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Nhóm quyền<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" formControlName="name">
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onAddNewRole()" data-dismiss="modal"> Thêm mới</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal-role-manager" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" [formGroup]="roleManagerInfoForm">
+            <div class="modal-content border-0">
+              <div class="modal-header" style="background: #2C3333">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: white">Chỉnh sửa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color: white">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="form-group row">
+                  <label for="name" class="col-sm-3 col-form-label">Mã<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="name" formControlName="code">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="address" class="col-sm-3 col-form-label">Nhóm quyền<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="address" formControlName="name">
+                  </div>
+                </div>
+
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onEditRole()" data-dismiss="modal">Cập Nhật</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="delete-role-manager" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header border-0">
+                <h5 class="modal-title" id="">Bạn có muốn xóa không ?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onDeleteRole()">Có</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<p-toast></p-toast>

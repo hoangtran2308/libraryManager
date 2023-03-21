@@ -1,0 +1,354 @@
+<p-toast></p-toast>
+<div class="row" id="table-inverse" >
+    <div class="col-12">
+      <div class="">
+        <div class="">
+          <div class="row">
+            <div class="col-md-9">
+              <h4 class="card-title">QUẢN LÝ SÁCH</h4>
+            </div>
+
+            <div class="col-md-3 d-flex justify-content-end" style="padding-bottom: 12px">
+              <a class="btn btn-info text-light add_new" type="button" data-toggle="modal"
+                 data-target="#exampleModal-bookmanager-new" (click)="resetValue()">Thêm mới <span><i class="fa-solid fa-plus"></i></span></a>
+            </div>
+            <div class="search">
+              <ul>
+                <li>
+                  <p-autoComplete [(ngModel)]="bookNameSearch" [showEmptyMessage]="false" [suggestions]="results"  (completeMethod)="search($event)" [minLength]="1" (onLazyLoad)="pageChange($event)" placeholder="Nhập tên sách"></p-autoComplete>
+                </li>
+                <li>
+                  <select class="form-control" (change)="selectCategory()" [(ngModel)]="categoryId">
+                    <option [value]="null" [disabled]="true" selected>Thể loại sách</option>
+                    <option *ngFor="let bookCategory of listBookCategory" value="{{bookCategory.id}}">
+                      <span>{{bookCategory.category_name}}</span>
+                    </option>
+                </select>
+  <!--                <p-dropdown [options]="listBookCategory" [(ngModel)]="categoryId" optionLabel="category_name" optionValue="categoryId" placeholder="Tê"></p-dropdown>-->
+                </li>
+                <li>
+                  <select class="form-control" [(ngModel)]="authorId">
+                  <option [value]="null" [disabled]="true" selected>Tác giả</option>
+                    <option *ngFor="let bookAuthor of listAuthor" value="{{bookAuthor.id}}">
+                      <span>{{bookAuthor.name_author}}</span>
+                    </option>
+                </select>
+                </li>
+                <li>
+                  <select class="form-control" [(ngModel)]="publishId">
+                  <option [value]="null" [disabled]="true" selected>Nhà xuất bản</option>
+                    <option *ngFor="let company of listpublishingCompany" value="{{company.id}}">
+                      <span>{{company.name}}</span>
+                    </option>
+                </select>
+                </li>
+                <li>
+                  <a class="btn btn-info text-light form-control" type="button" data-toggle="modal" (click)="onSearch()">Tìm kiếm</a>
+                </li>
+                <li>
+                  <a class="btn btn-info text-light form-control" type="button" data-toggle="modal" (click)="onReset()">Làm mới</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p-table [value]="bookManager"
+                 [paginator]="true"
+                 [lazy]="true"
+                 [scrollable]="true"
+                 [showPageLinks]="true"
+                 (onLazyLoad)="pageChange($event)"
+                 [rows]="size"
+                 [(first)]="first"
+                 [totalRecords]="totalElement"
+                 [loadingIcon]="''"
+                 [showLoader]="false"
+                 [loading]="loading">
+          <ng-template pTemplate="header" class="dark">
+            <tr>
+              <th class="flex-60px">STT</th>
+              <th pSortableColumn="book_name" class="flex-100px">TÊN SÁCH
+                <p-sortIcon field="book_name"></p-sortIcon>
+              </th>
+              <th  pSortableColumn="image">Ảnh
+                <p-sortIcon field="image"></p-sortIcon>
+              </th>
+              <th pSortableColumn="price">Giá tiền
+                <p-sortIcon field="price"></p-sortIcon>
+              </th>
+              <th pSortableColumn="category_name">LOẠI SÁCH
+                <p-sortIcon field="category_name"></p-sortIcon>
+              </th>
+              <th pSortableColumn="name_author">TÁC GIẢ
+                <p-sortIcon field="name_author"></p-sortIcon>
+              </th>
+              <th pSortableColumn="page_number">SỐ TRANG
+                <p-sortIcon field="page_number"></p-sortIcon>
+              </th>
+              <th pSortableColumn="publish_name">NHÀ XB
+                <p-sortIcon field="publish_name"></p-sortIcon>
+              </th>
+              <th pSortableColumn="publishing_year">NĂM XB
+                <p-sortIcon field="publishing_year"></p-sortIcon>
+              </th>
+              <th pSortableColumn="note">GHI CHÚ
+                <p-sortIcon field="note"></p-sortIcon>
+              </th>
+              <th pSortableColumn="amount">SỐ LƯỢNG
+                <p-sortIcon field="amount"></p-sortIcon>
+              </th>
+              <th pSortableColumn="status">TRẠNG THÁI
+                <p-sortIcon field="status"></p-sortIcon>
+              </th>
+              <th class="flex-100px">THAO TÁC</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="loadingbody">
+            <app-book-manager-skeleton></app-book-manager-skeleton>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-i let-rowIndex="rowIndex">
+            <tr *ngIf="!loading" >
+              <td class="flex-60px">{{rowIndex + 1}}</td>
+              <td class="flex-100px text-bold-500">{{i.book_name}}</td>
+              <td><img [src]="i.image" style="width: 120px; height: 80px"
+                       (error)="bookManager[rowIndex].image = 'https://louisreslive.com/wp-content/plugins/carousel-horizontal-posts-content-slider/assets/images/default-image.jpg'"></td>
+              <td>{{i.price.toLocaleString()}}</td>
+              <td>{{i.category_name}}</td>
+              <td class="text-bold-500">{{i.name_author}}</td>
+              <td>{{i.page_number}}</td>
+              <td>{{i.publish_name}}</td>
+              <td>{{i.publishing_year}}</td>
+              <td class="short-cut flex-160px" >{{i.note}}</td>
+              <td class="flex-60px">{{i.amount}}</td>
+              <ng-container *ngIf="i.status ==0 ">
+                <td>
+                  Không hoạt động
+                </td>
+              </ng-container>
+              <ng-container *ngIf="i.status ==1 ">
+                <td>
+                  Hoạt động
+                </td>
+              </ng-container>
+              <td class="flex-100px">
+                <a type="button" data-toggle="modal" data-target="#exampleModal-bookmanager" (click)="editBook(i)"><i class="fa-solid fa-pen-to-square" style="color: #00cc00"></i></a>
+                <a type="button" data-toggle="modal" data-target="#delete-book-manager" (click)="selectBook(i)"><i class="fa-solid fa-trash-can" style="color: red"></i></a>
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="paginatorleft" let-state>
+            <td colspan="5">Tổng số bản ghi: {{state.totalRecords}}</td>
+          </ng-template>
+        </p-table>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal-bookmanager-new" tabindex="-1" aria-labelledby="exampleModalLabel2"
+             aria-hidden="true">
+          <div class="modal-dialog modal-lg" [formGroup]="bookmanagerInfoForm">
+            <div class="modal-content border-0">
+              <div class="modal-header" style="background: #2C3333">
+                <h5 class="modal-title" style="color: white">Thêm mới</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color: white">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label" >Tên sách <span
+                    style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control"formControlName="book_name">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Ảnh <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="file" class="form-control-file" formControlName="file" (change)="getFile($event)">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Giá tiền <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control"  formControlName="price">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Loại sách <span
+                    style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <select class="form-control" formControlName="id_type_book">
+                      <option *ngFor="let bookCategory of listBookCategory" value="{{bookCategory.id}}">
+                        <span>{{bookCategory.category_name}}</span>
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Tác giả <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <select class="form-control" formControlName="id_author" >
+                      <option *ngFor="let bookAuthor of listAuthor" value="{{bookAuthor.id}}">
+                        <span>{{bookAuthor.name_author}}</span>
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Số trang <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" formControlName="page_number">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Nhà xuất bản <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <select class="form-control" formControlName="company_id" >
+                      <option *ngFor="let company of listpublishingCompany" value="{{company.id}}">
+                        <span>{{company.name}}</span>
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label  class="col-sm-3 col-form-label">Năm xuất bản <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="date" placeholder="yyyy-mm-dd" class="form-control"  formControlName="publishing_year">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Số lượng <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="number" class="form-control"formControlName="amount">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Ghi chú<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control"  formControlName="note">
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" style="font-size: 18px" data-dismiss="modal" (click)="onAddNewBook()" data-dismiss="modal">Thêm mới</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal-bookmanager" tabindex="-1" aria-labelledby="exampleModalLabel2"
+             aria-hidden="true">
+          <div class="modal-dialog modal-lg" [formGroup]="bookmanagerInfoForm">
+            <div class="modal-content border-0">
+              <div class="modal-header" style="background: #2C3333">
+                <h5 class="modal-title" id="exampleModalLabel2" style="color: white">Chỉnh sửa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color: white">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group row">
+                  <label for="book-name2" class="col-sm-3 col-form-label" >Tên sách <span
+                    style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="book-name2" formControlName="book_name">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="images2" class="col-sm-3 col-form-label">Ảnh <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="file" class="form-control-file" id="images2" formControlName="file" (change)="getFile($event)">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="price2" class="col-sm-3 col-form-label">Giá tiền <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="price2" formControlName="price">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Loại sách <span
+                    style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <select class="form-control" formControlName="id_type_book">
+                      <option *ngFor="let bookCategory of listBookCategory" value="{{bookCategory.id}}">
+                        <span>{{bookCategory.category_name}}</span>
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Tác giả <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <select class="form-control" formControlName="id_author" >
+                      <option *ngFor="let bookAuthor of listAuthor" value="{{bookAuthor.id}}">
+                        <span>{{bookAuthor.name_author}}</span>
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label  class="col-sm-3 col-form-label">Số trang <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" formControlName="page_number">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label  class="col-sm-3 col-form-label">Nhà xuất bản <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <select class="form-control" formControlName="company_id">
+                      <option *ngFor="let company of listpublishingCompany" value="{{company.id}}">
+                        <span>{{company.name}}</span>
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Năm xuất bản <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="date" placeholder="yyyy-mm-dd" class="form-control" formControlName="publishing_year">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Số lượng <span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="number" class="form-control" formControlName="amount">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">Ghi chú<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control"  formControlName="note">
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" style="font-size: 18px" data-dismiss="modal" (click)="onEditBook()" data-dismiss="modal">Cập Nhật</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="delete-book-manager" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header border-0">
+                <h5 class="modal-title" id="">Bạn có muốn xóa không ?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onDeleteBookManager()" data-dismiss="modal">Có</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,236 @@
+<div class="row" id="table-inverse" >
+    <div class="col-12">
+      <div class="">
+        <div class="">
+          <div class="row">
+            <div class="col-md-9">
+              <h4 class="card-title">QUẢN LÝ NHÀ XUẤT BẢN</h4>
+            </div>
+            <div class="col-md-3 d-flex justify-content-end" style="padding-bottom: 12px">
+              <a class="btn btn-info text-light add_new" type="button" data-toggle="modal" (click)="publishCompanyInfoForm.reset()" data-target="#exampleModal-publishing-company-new">Thêm mới <span><i class="fa-solid fa-plus"></i></span></a>
+            </div>
+            <div class="search">
+              <ul>
+                <li>
+                  <input class="form-control" type="text" [(ngModel)]="publishNameSearch" [(ngModel)]="resetForm.company_name" placeholder="Nhà xuất bản">
+                </li>
+                <li>
+                  <input class="form-control" type="text" [(ngModel)]="emailSearch" [(ngModel)]="resetForm.company_email"placeholder="Email">
+                </li>
+                <li>
+                  <input class="form-control" type="text" [(ngModel)]="agentPeopleSearch" [(ngModel)]="resetForm.company_deputy" placeholder="Người đại diện">
+                </li>
+                <li>
+                  <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onSearch()">Tìm kiếm</a>
+                </li>
+                <li>
+                  <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onReset()">Làm Mới </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!--        <div class="card-content">-->
+        <!--          <div class="card-body">-->
+        <!--            <p>-->
+        <!--              You can also invert the colors—with light text on dark-->
+        <!--              backgrounds—with-->
+        <!--              <code class="highlighter-rouge">.table-dark</code>.-->
+        <!--            </p>-->
+        <!--          </div>-->
+  <!--      <div class="table-responsive">-->
+  <!--        <table class="table table-light mb-0">-->
+  <!--          <thead>-->
+  <!--          <tr>-->
+  <!--            <th>STT</th>-->
+  <!--            <th>TÊN NXB</th>-->
+  <!--            <th>ĐỊA CHỈ</th>-->
+  <!--            <th>EMAIL</th>-->
+  <!--            <th>NGƯỜI ĐẠI DIỆN</th>-->
+  <!--            <th>NGÀY THÀNH LẬP</th>-->
+  <!--            <th>THAO TÁC</th>-->
+  <!--          </tr>-->
+  <!--          </thead>-->
+  <!--          <tbody>-->
+  <!--          <tr *ngFor="let i of publishingCompany, index as index">-->
+  <!--            <td>{{index +1}}</td>-->
+  <!--            <td>{{i.name}}</td>-->
+  <!--            <td>{{i.address}}</td>-->
+  <!--            <td>{{i.email}}</td>-->
+  <!--            <td>{{i.agent_people}}</td>-->
+  <!--            <td>{{i.date_founding}}</td>-->
+  <!--            <td>-->
+  <!--              <a type="button" data-toggle="modal" data-target="#exampleModal-publishing-company" (click)="editPublishCompany(i)"><i class="fa-solid fa-pen-to-square" style="color: #00cc00"></i></a>-->
+  <!--              <a type="button" data-toggle="modal" data-target="#delete-publishing-company" (click)="selectPublishCompany(i)"><i class="fa-solid fa-trash-can" style="color: red"></i></a>-->
+  <!--            </td>-->
+  <!--          </tr>-->
+  <!--          </tbody>-->
+  <!--        </table>-->
+  <!--      </div>-->
+        <p-table [value]="publishingCompany"
+                 [paginator]="true"
+                 [lazy]="true"
+                 [scrollable]="true"
+                 [showPageLinks]="true"
+                 (onLazyLoad)="pageChange($event)"
+                 [rows]="size"
+                 [(first)]="first"
+                 [totalRecords]="totalElement"
+                 [loadingIcon]="''"
+                 [showLoader]="false"
+                 [loading]="loading">
+          <ng-template pTemplate="header" class="dark">
+            <tr>
+              <th class="flex-60px">STT</th>
+              <th pSortableColumn="name">TÊN NXB<p-sortIcon field="name"></p-sortIcon></th>
+              <th pSortableColumn="address">ĐỊA CHỈ<p-sortIcon field="address"></p-sortIcon></th>
+              <th pSortableColumn="email">EMAIL<p-sortIcon field="email"></p-sortIcon></th>
+              <th pSortableColumn="agent_people">NGƯỜI ĐẠI DIỆN<p-sortIcon field="dateOfBirth"></p-sortIcon></th>
+              <th pSortableColumn="date_founding">NGÀY THÀNH LẬP<p-sortIcon field="phoneNum"></p-sortIcon></th>
+              <th class="flex-100px">THAO TÁC</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="loadingbody">
+            <app-publishing-skeleton></app-publishing-skeleton>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-i let-rowIndex="rowIndex">
+            <tr *ngIf="!loading">
+              <td class="flex-60px">{{rowIndex +1}}</td>
+              <td>{{i.name}}</td>
+              <td>{{i.address}}</td>
+              <td>{{i.email}}</td>
+              <td>{{i.agent_people}}</td>
+              <td>{{i.date_founding}}</td>
+              <td class="flex-100px">
+                <a type="button" data-toggle="modal" data-target="#exampleModal-publishing-company" (click)="editPublishCompany(i)"><i class="fa-solid fa-pen-to-square" style="color: #00cc00"></i></a>
+                <a type="button" data-toggle="modal" data-target="#delete-publishing-company" (click)="selectPublishCompany(i)"><i class="fa-solid fa-trash-can" style="color: red"></i></a>
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="paginatorleft" let-state>
+            <td colspan="5">Tổng số bản ghi: {{state.totalRecords}}</td>
+          </ng-template>
+        </p-table>
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal-publishing-company-new" tabindex="-1" aria-labelledby="exampleModalLabel_add" aria-hidden="true">
+          <div class="modal-dialog modal-lg" [formGroup]="publishCompanyInfoForm">
+            <div class="modal-content border-0">
+              <div class="modal-header" style="background: #2C3333">
+                <h5 class="modal-title" id="exampleModalLabel_add" style="color: white">Thêm mới</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color: white">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group row">
+                  <label for="name_add" class="col-sm-3 col-form-label">Tên NXB<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="name_add" formControlName="name">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="address_add" class="col-sm-3 col-form-label">Địa chỉ<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="address_add" formControlName="address">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="company_email_add" class="col-sm-3 col-form-label">Email<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="company_email_add" formControlName="email">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="agent_person_add" class="col-sm-3 col-form-label">Người đại diện<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="agent_person_add" formControlName="agent_people">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="founding_date_add" class="col-sm-3 col-form-label">Ngày thành lập<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="date" class="form-control" id="founding_date_add" formControlName="date_founding">
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onAddNewPublishCompany()" data-dismiss="modal">Thêm mới</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal-publishing-company" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" [formGroup]="publishCompanyInfoForm">
+            <div class="modal-content border-0">
+              <div class="modal-header" style="background: #2C3333">
+                <h5 class="modal-title" id="exampleModalLabel" style="color: white">Chỉnh sửa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color: white">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group row">
+                  <label for="name" class="col-sm-3 col-form-label">Tên NXB<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="name" formControlName="name">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="address" class="col-sm-3 col-form-label">Địa chỉ<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="address" formControlName="address">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="company_email" class="col-sm-3 col-form-label">Email<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="company_email" formControlName="email">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="agent_person" class="col-sm-3 col-form-label">Người đại diện<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="agent_person" formControlName="agent_people">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="founding_date" class="col-sm-3 col-form-label">Ngày thành lập<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="date" class="form-control" id="founding_date" formControlName="date_founding">
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onEditPublishCompany()" data-dismiss="modal">Cập Nhật</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="delete-publishing-company" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header border-0">
+                <h5 class="modal-title" id="">Bạn có muốn xóa không ?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                <button type="button" class="btn btn-primary" (click)="onDeletePublishCompany()" data-dismiss="modal">Có</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<p-toast></p-toast>

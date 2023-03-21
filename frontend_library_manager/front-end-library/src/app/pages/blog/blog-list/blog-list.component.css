@@ -1,0 +1,16 @@
+/*.post-date-box a img{*/
+/*  border-top: 1px solid #ff7236;*/
+/*}*/
+.post-date-box{
+  display: none;
+}
+.entry-title a{
+  text-decoration: none;
+  cursor: pointer;
+}
+.post-share a{
+  text-decoration: none;
+}
+.btn.btn-default:hover{
+  color: #ffffff;
+}

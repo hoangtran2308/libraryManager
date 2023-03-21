@@ -1,0 +1,165 @@
+
+<section class="page-banner services-banner">
+  <div class="container">
+    <div class="banner-header">
+      <h2>THỂ LOẠI SÁCH</h2>
+      <span class="underline center"></span>
+      <p class="lead">Việc đọc rất quan trọng. Nếu bạn biết cách đọc, cả thế giới sẽ mở ra cho bạn.</p>
+    </div>
+    <div class="breadcrumb">
+      <ul>
+        <li><a [routerLink]="['/pages/home']">Trang chủ</a></li>
+        <li>Thể loại sách</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main">
+      <div class="books-full-width">
+        <div class="container">
+          <!-- Start: Search Section -->
+          <section class="search-filters">
+            <div class="filter-box">
+              <h3>Bạn đang tìm kiếm sách gì?</h3>
+                <div class="col-md-4 col-sm-6">
+                  <div class="form-group">
+                    <input class="form-control" [(ngModel)]="bookNameSearch" placeholder="Tên sách" id="keywords" name="keywords" type="text">
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                  <div class="form-group">
+                    <div class="select">
+                      <select class="form-control" (change)="selectAuthor()" [(ngModel)]="authorNameIdSearch">
+                        <option [value]="null" [disabled]="true" selected >Tên tác giả</option>
+                        <option  *ngFor="let categoryAuthor of getAuthor" value="{{categoryAuthor.idAuthor}}">
+                          <span >{{categoryAuthor.nameAuthor}}</span>
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                  <div class="form-group">
+                    <div class="select">
+                      <select class="form-control"
+                              (change)="selectCategory()"
+                              [(ngModel)]="categoryIdSearch">
+                        <option [value]="null" [disabled]="true" selected>Các danh mục</option>
+                        <option *ngFor="let categoryBook of getCategory" value="{{categoryBook.idCategory}}">
+                          <span>{{categoryBook.nameCategory}}</span>
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-1 col-sm-6">
+                  <div class="form-group ">
+                    <button class="form-control btn_tool" type="submit" (click)="onSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                  </div>
+                </div>
+                <div class="col-md-1 col-sm-6">
+                  <div class="form-group ">
+                    <button class="form-control btn_tool" type="submit" (click)="onReset()"><i class="fa-solid fa-arrows-rotate"></i>
+                    </button>
+                  </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+          </section>
+
+          <!--  Skeleton     -->
+          <ng-container *ngIf="loading">
+            <div class="explore-events pt-80">
+              <div class="container">
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12">
+                    <app-category-page-skeleton></app-category-page-skeleton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <!--    End       -->
+          <ng-container *ngIf = "!loading && categoryBookPage.length == 0">
+            <div class="no-result">
+            <img src="./assets/images/category-filter/no-result.jpg" alt="">
+            </div>
+          </ng-container>
+            <div class="booksmedia-fullwidth" *ngIf="!loading">
+              <ul >
+                <li *ngFor="let i of categoryBookPage, index as index">
+                  <figure [routerLink]="['/pages/detail-book/'+i.bookId]" >
+                    <a><img [src]="i.image"  style="width: 340px; height: 480px" alt="Book"
+                    (error)="categoryBookPage[index].image = 'https://protkd.com/wp-content/uploads/2017/04/default-image-620x600.jpg'"></a>
+                    <figcaption>
+                      <header>
+                        <h4><a>{{i.bookName}}</a></h4>
+                        <p><strong>Tác giả:</strong>  {{i.authorName}}</p>
+                        <p><strong>Thể loại:</strong>  {{i.categoryName}}</p>
+                        <p><strong>Nhà xuất bản:</strong>  {{i.publishName}}</p>
+                      </header>
+                      <p class="note">{{i.note}}</p>
+<!--                      <div class="actions">-->
+<!--                        <ul>-->
+<!--                          <li>-->
+<!--                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Add TO CART">-->
+<!--                              <i class="fa fa-shopping-cart"></i>-->
+<!--                            </a>-->
+<!--                          </li>-->
+<!--                          <li>-->
+<!--                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">-->
+<!--                              <i class="fa fa-heart"></i>-->
+<!--                            </a>-->
+<!--                          </li>-->
+<!--                          <li>-->
+<!--                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Mail">-->
+<!--                              <i class="fa fa-envelope"></i>-->
+<!--                            </a>-->
+<!--                          </li>-->
+<!--                          <li>-->
+<!--                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Search">-->
+<!--                              <i class="fa fa-search"></i>-->
+<!--                            </a>-->
+<!--                          </li>-->
+<!--                          <li>-->
+<!--                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">-->
+<!--                              <i class="fa fa-print"></i>-->
+<!--                            </a>-->
+<!--                          </li>-->
+<!--                          <li>-->
+<!--                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Share">-->
+<!--                              <i class="fa fa-share-alt"></i>-->
+<!--                            </a>-->
+<!--                          </li>-->
+<!--                        </ul>-->
+<!--                      </div>-->
+                    </figcaption>
+                  </figure>
+                </li>
+              </ul>
+            </div>
+          <nav class="navigation pagination text-center" style="display:inherit">
+            <h2 class="screen-reader-text">Posts navigation</h2>
+            <div class="nav-links" >
+              <a class="prev page-numbers" [class.disabled]="page<=0"
+                 (click)="previousPage();onHeader()"><i class="fa fa-long-arrow-left"></i>  Trở lại</a>
+              <a class="page-numbers"
+                 *ngFor="let item of listPage" (click)="onPageChange(item);onHeader()"
+                 [class.current]="item===page">{{item+1}}</a>
+              <a class="next page-numbers" [class.disabled]="page>=totalPage-1"
+                 (click)="nextPage();onHeader()">Tiếp <i class="fa fa-long-arrow-right"></i></a>
+            </div>
+          </nav>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+
+
+<!--<div class="book-list-icon blue-icon"></div>-->

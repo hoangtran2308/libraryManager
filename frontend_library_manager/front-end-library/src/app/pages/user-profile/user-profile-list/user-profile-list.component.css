@@ -1,0 +1,93 @@
+body {
+  background: rgb(99, 39, 120)
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: #BA68C8
+}
+
+.profile-button {
+  background: rgb(99, 39, 120);
+  box-shadow: none;
+  border: none
+}
+
+.profile-button:hover {
+  background: #682773
+}
+
+.profile-button:focus {
+  background: #682773;
+  box-shadow: none
+}
+
+.profile-button:active {
+  background: #682773;
+  box-shadow: none
+}
+
+.back:hover {
+  color: #682773;
+  cursor: pointer
+}
+
+.labels {
+  font-size: 11px
+}
+
+.add-experience:hover {
+  background: #BA68C8;
+  color: #fff;
+  cursor: pointer;
+  border: solid 1px #BA68C8
+}
+
+.card-body img {
+  border-radius: 50%;
+}
+
+.form-control:focus{
+  box-shadow: none;
+  border-color: #ff7236!important;
+  border: 2px solid;
+}
+.edit_user_profile{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.edit_item {
+  text-transform: none!important;
+  background-color: #ff7236;
+  color: #fff
+}
+
+.modal-user-profile {
+  background: white;
+  padding: 60px 20px;
+}
+
+.modal-header {
+  background-color: #000;
+  position: relative;
+  height: 60px;
+}
+
+.modal-header .modal-title {
+  color: #ffffff;
+  line-height: 30px;
+  padding-left: 12px;
+}
+
+.modal-header .close {
+  color: #ffffff;
+  position: absolute;
+  right: 2%;
+  top: 0;
+  bottom: 0;
+}
+
+.p-element {
+  width: 500px;
+}

@@ -1,0 +1,184 @@
+<p-toast></p-toast>
+<div class="row" id="table-inverse">
+  <div class="col-12">
+    <div class="">
+      <div class="">
+        <div class="row">
+          <div class="col-md-9">
+            <h4 class="">QUẢN LÝ THỂ LOẠI SÁCH</h4>
+          </div>
+
+          <div class="col-md-3 d-flex justify-content-end" style="padding-bottom: 12px">
+            <a class="btn btn-info text-light add_new" type="button" data-toggle="modal" data-target="#exampleModal-category-new" (click)="bookInfoForm.reset()">Thêm mới <span><i class="fa-solid fa-plus"></i></span></a>
+          </div>
+          <div class="search">
+            <ul>
+              <li>
+                <input class="form-control" type="text" [(ngModel)]="categoryNameSearch" placeholder="Thể loại sách">
+              </li>
+              <li>
+                <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onSearchBookCategory()">Tìm kiếm</a>
+              </li>
+              <li>
+                <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onReset()" >Làm mới</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!--        <div class="card-content">-->
+      <!--          <div class="card-body">-->
+      <!--            <p>-->
+      <!--              You can also invert the colors—with light text on dark-->
+      <!--              backgrounds—with-->
+      <!--              <code class="highlighter-rouge">.table-dark</code>.-->
+      <!--            </p>-->
+      <!--          </div>-->
+<!--      <div class="table-responsive">-->
+<!--        <table class="table table-light mb-0">-->
+<!--          <thead>-->
+<!--          <tr>-->
+<!--            <th>STT</th>-->
+<!--            <th>MÃ SÁCH</th>-->
+<!--            <th>THAO TÁC</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+<!--          <tr *ngFor="let i of categoryManager, index as index">-->
+<!--            <td>{{index +1}}</td>-->
+<!--            <td>{{i.category_name}}</td>-->
+<!--            <td>-->
+<!--              <a type="button" data-toggle="modal" data-target="#exampleModal-catergory-create" (click)="editBookCategory(i)" style="color: #00cc00"><i class="fa-solid fa-pen-to-square"></i></a>-->
+<!--              <a type="button" data-toggle="modal" data-target="#delete-category" (click)="selectBookCategory(i)" style="color: red"><i class="fa-solid fa-trash-can"></i></a>-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--          </tbody>-->
+<!--        </table>-->
+<!--      </div>-->
+      <p-table [value]="categoryManager"
+               [paginator]="true"
+               [lazy]="true"
+               [scrollable]="true"
+               [showPageLinks]="true"
+               (onLazyLoad)="pageChange($event)"
+               [rows]="size"
+               [(first)]="first"
+               [totalRecords]="totalElement"
+               [loadingIcon]="''"
+               [showLoader]="false"
+               [loading]="loading">
+        <ng-template pTemplate="header" class="dark">
+          <tr>
+            <th>STT</th>
+            <th pSortableColumn="category_name">Thể loại sách<p-sortIcon field="category_name"></p-sortIcon></th>
+            <th class="flex-100px">THAO TÁC</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+          <app-category-manager-skeleton></app-category-manager-skeleton>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-i let-rowIndex="rowIndex">
+          <tr *ngIf="!loading">
+            <td>{{ rowIndex +1}}</td>
+            <td>{{i.category_name}}</td>
+            <td class="flex-100px">
+              <a type="button" data-toggle="modal" data-target="#exampleModal-catergory-create" (click)="editBookCategory(i)" style="color: #00cc00"><i class="fa-solid fa-pen-to-square"></i></a>
+              <a type="button" data-toggle="modal" data-target="#delete-category" (click)="selectBookCategory(i)" style="color: red"><i class="fa-solid fa-trash-can"></i></a>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft" let-state>
+          <td colspan="5">Tổng số bản ghi: {{state.totalRecords}}</td>
+        </ng-template>
+      </p-table>
+<!--      <div class="modal fade" id="delete-category" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--        <div class="modal-dialog">-->
+<!--          <div class="modal-content">-->
+<!--            <div class="modal-header border-0">-->
+<!--              <h5 class="modal-title" id="">Bạn có muốn xóa không ?</h5>-->
+<!--              <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                <span aria-hidden="true">&times;</span>-->
+<!--              </button>-->
+<!--            </div>-->
+<!--            <div class="modal-footer border-0">-->
+<!--              <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>-->
+<!--              <button type="button" class="btn btn-primary" (click)="onDeleteBookCategory()" data-dismiss="modal">Có</button>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+
+
+      <!-- Modal -->
+        <div class="modal fade" id="exampleModal-category-new" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" [formGroup]="bookInfoForm">
+            <div class="modal-content border-0">
+              <div class="modal-header" style="background: #2C3333">
+                <h5 class="modal-title" style="color: white">Thêm mới</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color: white">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group row">
+                  <label for="price" class="col-sm-3 col-form-label">Mã Sách<span style="color: red"> *</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" formControlName="category_name">
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onAddNewBookCategory()" data-dismiss="modal">Thêm mới</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal-catergory-create" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" [formGroup]="bookInfoForm">
+            <div class="modal-content border-0">
+              <div class="modal-header" style="background: #2C3333">
+                <h5 class="modal-title" style="color: white">Chỉnh sửa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="color: white">&times;</span>
+                </button>
+              </div>
+
+                <div class="modal-body">
+                  <div class="form-group row">
+                    <label for="price" class="col-sm-3 col-form-label">Mã Sách<span style="color: red"> *</span></label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="price" formControlName="category_name">
+                    </div>
+                  </div>
+                </div>
+
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onEditBookCategory()" data-dismiss="modal">Cập Nhật</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <!-- Modal delete-->
+      <div class="modal fade" id="delete-category" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header border-0">
+              <h5 class="modal-title" id="">Bạn có muốn xóa không ?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer border-0">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+              <button type="button" class="btn btn-primary" (click)="onDeleteBookCategory()" data-dismiss="modal">Có</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

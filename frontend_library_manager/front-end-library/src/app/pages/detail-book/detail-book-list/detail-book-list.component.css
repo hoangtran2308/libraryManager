@@ -1,0 +1,48 @@
+a:hover{
+  color: #FF2B10 !important;
+  text-decoration: none;
+  /*font-size: 20px;*/
+}
+.dk-loanpay:hover{
+  color: #ff7236 !important;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 500;
+}
+.booksmedia-fullwidth ul li {
+  width:auto !important;
+}
+.add-loanpay li a{
+  color : #ff7236;
+}
+.detailed-box .post-center-content .actions {
+  height: 57px;
+  /*margin-top: 99px*/
+}
+.btn.btn-primary{
+  background-color: #ff7236 ;
+}
+.btn.btn-primary:hover{
+  background-color: #FF5215;
+}
+.modal-header{
+  height: 70px;
+}
+.modal-header h5{
+  margin-top: 12px
+}
+.actions ul li a i{
+  border: none;
+}
+
+.add-loanpay li>a {
+  cursor: pointer;
+}
+li.p-carousel.p-carousel-indicators.p-carousel-indicator{
+  border:none !important;
+  width: auto !important;
+}
+.fa-solid.fa-check{
+
+}
+

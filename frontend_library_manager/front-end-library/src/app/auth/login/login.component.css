@@ -1,0 +1,63 @@
+
+#wrapper {
+  background-image: url('/assets/images/background-auth.jpg');
+  background-size: cover;
+}
+
+#wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-login {
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 400px;
+}
+
+.form-login-group {
+  padding: 20px;
+}
+
+#password {
+  position: relative;
+}
+
+#eye {
+  position: absolute;
+  top: 44px;
+  right: 10px;
+  cursor: pointer;
+}
+
+#password1{
+  position: relative;
+}
+.forget-password {
+  padding-top: 10px;
+  padding-bottom: 20px;
+  /*border-bottom: 1px solid #000;*/
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
+#btn_spinner {
+  display: none
+}
+
+.err{
+  color:red;
+}
+
+.pass-form {
+  padding-bottom: 12px;
+}
+
+
+
+/* Spinner */
+
+

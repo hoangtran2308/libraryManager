@@ -1,0 +1,53 @@
+<p-toast></p-toast>
+<div id="wrapper">
+  <div class="form-login">
+    <form class="form-login-group" [formGroup]="loginForm" (ngSubmit)="login()">
+      <h1 class="text-center">Đăng nhập</h1>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email</label>
+        <input type="email" formControlName="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <div class="err" *ngIf="loginForm.get('email')?.invalid
+        &&( loginForm.get('email')?.dirty || loginForm.get('email')?.touched) || submitted">
+          <div *ngIf="loginForm.get('email')?.hasError('required')">
+            Vui lòng nhập email
+          </div>
+          <div *ngIf="loginForm.get('email')?.hasError('email')">
+            Hãy nhập đúng dạng @gmail.com
+          </div>
+        </div>
+      </div>
+      <div class="form-group pass-form" id="password">
+        <label for="exampleInputPassword1">Mật Khẩu</label>
+        <input type="{{!showEye ? 'password' : 'text'}}" formControlName="password" class="form-control" id="exampleInputPassword1">
+        <div id="eye" (click)="showEye = !showEye">
+          <i class="fa-solid fa-eye" *ngIf="showEye"></i>
+          <i class=" fa-solid fa-eye-slash" *ngIf="!showEye"></i>
+        </div>
+        <div class="err" *ngIf="loginForm.get('password')?.invalid
+        &&( loginForm.get('password')?.dirty || loginForm.get('password')?.touched) || submitted">
+          <div *ngIf="loginForm.get('password')?.hasError('required')">
+            Vui lòng nhập password
+          </div>
+          <div *ngIf="loginForm.get('password')?.hasError('pattern')">
+            Vui lòng nhập password có 8 đến 20 kí tự, bao gồm số, chữ cái viết hoa, chữ viết thường và kí tự đặc biệt
+          </div>
+        </div>
+
+      </div>
+      <button id="btn_login" type="submit" class="btn btn-primary form-control" onclick="spinnerLoad()" >Đăng nhập</button>
+      <button id="btn_spinner" type="submit" class="btn btn-primary form-control">
+        <p-progressSpinner [style]="{width: '30px', height: '30px'}"  strokeWidth="10"></p-progressSpinner>
+      </button>
+
+      <div class="forget-password">
+        <a href="" class="text-dark" [routerLink]="['/auth/forgot-password']">Quên mật khẩu ?</a>
+      </div>
+      <div class="register py-3" >
+        <button type="submit" class="btn btn-primary form-control" [routerLink]="'/auth/register'">Đăng Ký</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+

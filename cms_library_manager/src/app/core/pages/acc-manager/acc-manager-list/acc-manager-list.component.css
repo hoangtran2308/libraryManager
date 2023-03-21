@@ -1,0 +1,38 @@
+.dark {
+  background-color: #E2DCC8;
+  color: #47474a
+}
+
+ tbody {
+  background-color: #F1F1F1;
+}
+
+td i {
+  font-size: 20px;
+  padding: 8px;
+}
+
+
+.search {
+  width: 100%
+}
+
+.search ul {
+  display: flex;
+  list-style-type: none;
+  padding-left: 16px;
+}
+
+.search li {
+  padding-right: 8px
+}
+
+.search .btn {
+  padding: 5px 18px
+}
+.add_new{
+  margin-right: 16px;
+}
+
+
+

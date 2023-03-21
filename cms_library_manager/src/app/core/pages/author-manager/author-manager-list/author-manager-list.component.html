@@ -1,0 +1,227 @@
+<p-toast></p-toast>
+<div class="row" id="table-inverse">
+  <div class="col-12">
+    <div class="">
+      <div class="">
+        <div class="row">
+          <div class="col-md-9">
+            <h4 class="card-title">QUẢN LÝ TÁC GIẢ</h4>
+          </div>
+          <div class="col-md-3 d-flex justify-content-end" style="padding-bottom: 12px">
+            <a class="btn btn-info text-light add_new" type="button" data-toggle="modal"
+               data-target="#exampleModal-create-author-new" (click)="AuthorInfoForm.reset()">Thêm mới <span><i class="fa-solid fa-plus"></i></span></a>
+          </div>
+          <div class="search">
+            <ul>
+              <li>
+                <p-autoComplete [(ngModel)]="authorNameSearch" [showEmptyMessage]="false" [suggestions]="authorName"  (completeMethod)="onSearchBookName($event)" [minLength]="1" (onLazyLoad)="pageChange($event)" placeholder="Tên tác giả"></p-autoComplete>
+              </li>
+              <li>
+                <p-autoComplete [(ngModel)]="address" [showEmptyMessage]="false" [suggestions]="addresss"  (completeMethod)="onSearchAddress($event)" [minLength]="1" (onLazyLoad)="pageChange($event)" placeholder="Địa chỉ"></p-autoComplete>
+              </li>
+              <li>
+                <input class="form-control" type="text" [(ngModel)]="title" placeholder="Chức danh">
+              </li>
+              <li>
+                <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onSearchAuthor()">Tìm kiếm</a>
+              </li>
+              <li>
+                <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onReset()">Làm Mới </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!--        <div class="card-content">-->
+      <!--          <div class="card-body">-->
+      <!--            <p>-->
+      <!--              You can also invert the colors—with light text on dark-->
+      <!--              backgrounds—with-->
+      <!--              <code class="highlighter-rouge">.table-dark</code>.-->
+      <!--            </p>-->
+      <!--          </div>-->
+<!--      <div class="table-responsive">-->
+<!--        <table class="table table-light mb-0">-->
+<!--          <thead>-->
+<!--          <tr>-->
+<!--            <th>STT</th>-->
+<!--            <th>TÊN TÁC GIẢ</th>-->
+<!--            <th>ĐỊA CHỈ</th>-->
+<!--            <th>CHỨC DANH</th>-->
+<!--            <th>GHI CHÚ</th>-->
+<!--            <th>THAO TÁC</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+<!--          <tr *ngFor="let i of  authorManager, index as index">-->
+<!--            <td>{{index + 1}}</td>-->
+<!--            <td class="text-bold-500">{{i.name_author}}</td>-->
+<!--            <td>{{i.address}}</td>-->
+<!--            <td>{{i.title}}</td>-->
+<!--            <td>{{i.note}}</td>-->
+<!--            <td>-->
+<!--              <a type="button" data-toggle="modal" data-target="#exampleModal-author-new" style="color: #00cc00" (click)="editBookAuthor(i)"><i-->
+<!--                class="fa-solid fa-pen-to-square"></i></a>-->
+<!--              <a type="button" data-toggle="modal" data-target="#delete-author-manager" style="color: red" (click)="selectBookAuthor(i)"><i-->
+<!--                class="fa-solid fa-trash-can"></i></a>-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--          </tbody>-->
+<!--        </table>-->
+<!--      </div>-->
+      <p-table [value]="authorManager"
+               [paginator]="true"
+               [lazy]="true"
+               [scrollable]="true"
+               [showPageLinks]="true"
+               (onLazyLoad)="pageChange($event)"
+               [rows]="size"
+               [(first)]="first"
+               [totalRecords]="totalElement"
+               [loadingIcon]="''"
+               [showLoader]="false"
+               [loading]="loading">
+        <ng-template pTemplate="header" class="dark">
+          <tr>
+            <th class="flex-60px">STT</th>
+            <th pSortableColumn="name_author" class="flex-300px">TÊN TÁC GIẢ<p-sortIcon field="name_author"></p-sortIcon></th>
+            <th pSortableColumn="address" class="flex-200px">ĐỊA CHỈ<p-sortIcon field="address"></p-sortIcon></th>
+            <th pSortableColumn="title" class="flex-200px">CHỨC DANH<p-sortIcon field="title"></p-sortIcon></th>
+            <th pSortableColumn="note">GHI CHÚ<p-sortIcon field="note"></p-sortIcon></th>
+            <th class="flex-60px">THAO TÁC</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody" >
+          <app-author-manager-skeleton></app-author-manager-skeleton>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-i let-rowIndex="rowIndex">
+          <tr *ngIf="!loading">
+            <td class="flex-60px">{{rowIndex + 1}}</td>
+            <td class="text-bold-500 flex-300px">{{i.name_author}}</td>
+            <td class="text-bold-500 flex-200px">{{i.address}}</td>
+            <td class="text-bold-500 flex-200px">{{i.title}}</td>
+            <td class="short-cut">{{i.note}}</td>
+            <td class="flex-60px">
+              <a type="button" data-toggle="modal" data-target="#exampleModal-author-new" style="color: #00cc00" (click)="editBookAuthor(i)"><i
+                class="fa-solid fa-pen-to-square"></i></a>
+              <a type="button" data-toggle="modal" data-target="#delete-author-manager" style="color: red" (click)="selectBookAuthor(i)"><i
+                class="fa-solid fa-trash-can"></i></a>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft" let-state>
+          <td colspan="5">Tổng số bản ghi: {{state.totalRecords}}</td>
+        </ng-template>
+      </p-table>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal-create-author-new" tabindex="-1" aria-labelledby="exampleModalLabel-1"
+           aria-hidden="true">
+        <div class="modal-dialog modal-lg" [formGroup]="AuthorInfoForm">
+          <div class="modal-content border-0">
+            <div class="modal-header" style="background: #2C3333">
+              <h5 class="modal-title" id="exampleModalLabel-1" style="color: white">Thêm mới</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" style="color: white">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group row">
+                <label for="author-name" class="col-sm-3 col-form-label">Tên tác giả <span
+                  style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="author-name" formControlName="name_author">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="address" class="col-sm-3 col-form-label">Địa chỉ <span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="address" formControlName="address">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="title" class="col-sm-3 col-form-label">Chức danh <span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="title" formControlName="title">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="note" class="col-sm-3 col-form-label">Ghi chú <span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="note" formControlName="note">
+                </div>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onAddNewBookAuth()" data-dismiss="modal">Thêm mới</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal-author-new" tabindex="-1" aria-labelledby="exampleModalLabel-2"
+           aria-hidden="true">
+        <div class="modal-dialog modal-lg"[formGroup]="AuthorInfoForm">
+          <div class="modal-content border-0">
+            <div class="modal-header" style="background: #2C3333">
+              <h5 class="modal-title" id="exampleModalLabel-2" style="color: white">Chỉnh sửa</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" style="color: white">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group row">
+                <label for="author-name" class="col-sm-3 col-form-label">Tên tác giả <span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="author-name1" formControlName="name_author">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="address" class="col-sm-3 col-form-label">Địa chỉ <span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="address1" formControlName="address">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="title" class="col-sm-3 col-form-label">Chức danh <span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="title1" formControlName="title">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="note1" class="col-sm-3 col-form-label">Ghi chú <span style="color: red"> *</span></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="note1" formControlName="note">
+                </div>
+              </div>
+              <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onEditBookAuth()" data-dismiss="modal">Cập nhật</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="delete-author-manager" tabindex="-1" aria-labelledby="exampleModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header border-0">
+              <h5 class="modal-title" id="">Bạn có muốn xóa không ?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer border-0">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+              <button type="button" class="btn btn-primary" (click)=" onDeleteBookAuthor()" data-dismiss="modal">Có</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

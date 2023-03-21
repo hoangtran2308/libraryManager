@@ -1,0 +1,523 @@
+<div id="carousel">
+  <app-carousel></app-carousel>
+</div>
+<div id="welcome-section">
+  <section class="welcome-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="welcome-wrap">
+            <div class="welcome-text text-justify">
+              <h2 class="section-title">Chào mừng bạn đến với thư viện</h2>
+              <span class="underline left "></span>
+              <p>Đọc sách và những lợi ích đầy bất ngờ có lẽ bạn chưa biết
+
+                Giải trí là một trong những nhu cầu thiết yếu đối với con người giúp bạn lấy lại năng lượng và tinh thần sau những giờ làm việc vất vả. Đọc sách cũng là một trong những cách giải trí đầy lành mạnh mà nhiều người lựa chọn.
+
+                Đây là kho kiến thức vô hạn, là nơi lưu trữ tinh hoa văn hóa của nhân loại qua bao đời. Chính vì thế mà đọc sách thường xuyên cũng là một cách để bạn trau dồi và tự làm tăng vốn kiến thức về nhiều mảng.Bên cạnh đó, đọc sách còn giúp chúng ta bình tâm hơn, thư thái và giảm stress khá hiệu quả. Vì những lợi ích mà nó đem lại cho người đọc nên nó trở thói quen rất được ưa chuộng.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="welcome-image"></div>
+  </section>
+</div>
+<div id="category-filter1">
+  <section class="category-filter section-padding">
+    <div class="container-fluid">
+      <div class="center-content">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <h2 class="section-title">Các loại sách của thư viện</h2>
+            <span class="underline center lead"></span>
+<!--            <p class="lead">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.</p>-->
+          </div>
+        </div>
+      </div>
+      <div class="filter-buttons">
+
+        <div class="filter btn" data-filter="all" [class.active]="categoryIdSelected == null" (click)="onSearchHome()">Tất cả danh mục </div>
+        <ng-container *ngIf="!listCategory || listCategory.length===0">
+          <app-home-page-category style="display:flex"></app-home-page-category>
+        </ng-container>
+        <div *ngFor="let category of listCategory; let i=index">
+          <div class="btn filter"  [class.active]="category.categoryId===categoryIdSelected"
+               (click)="onSearchHome(category.categoryId)" *ngIf="i<8">
+              {{category.categoryName}}
+          </div>
+        </div>
+        <div>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="loading">
+        <div class="container-fluid">
+          <div class="row" style="border-bottom:1px solid ">
+            <div *ngFor = "let i of [1,2,3,4]" class="col-xl-3 col-lg-3 col-md-3">
+              <app-home-page-skeleton></app-home-page-skeleton>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngFor = "let i of [1,2,3,4]" class="col-xl-3 col-lg-3 col-md-3">
+              <app-home-page-skeleton></app-home-page-skeleton>
+            </div>
+          </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!loading && homePage.length == 0">
+      <div style="display: flex; justify-content: center;">
+        <img src="assets/images/no-result.gif">
+      </div>
+    </ng-container>
+    <div id="category-filter" *ngIf="!loading ">
+      <ul class="category-list">
+        <li *ngFor="let i of homePage, index as index" class="category-item" style="display: block !important;">
+          <figure>
+            <img [src]="i.image"  style="height: 400px" alt="New Releaase"
+                 (error)="homePage[index].image = 'https://phutungnhapkhauchinhhang.com/wp-content/uploads/2020/06/default-thumbnail.jpg'"/>
+            <figcaption class="bg-orange">
+              <div class="info-block">
+                <h4>{{i.bookName}}</h4>
+                <span class="author"><strong>Tác giả:</strong>{{i.authorName}}</span>
+                <span class="author"><strong>Thể loại:</strong>{{i.categoryName}}</span>
+                <div class="rating">
+                  <span>☆</span>
+                  <span>☆</span>
+                  <span>☆</span>
+                  <span>☆</span>
+                  <span>☆</span>
+                </div>
+                <p>{{i.note}}</p>
+                <a [routerLink]="['/pages/detail-book/'+i.bookId]">Đọc thêm <i class="fa fa-long-arrow-right"></i></a>
+                <ol>
+                  <li>
+                    <a>
+                      <i class="fa fa-shopping-cart"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="fa fa-heart"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="fa fa-envelope"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="fa fa-share-alt"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="fa fa-search"></i>
+                    </a>
+                  </li>
+                </ol>
+              </div>
+            </figcaption>
+          </figure>
+        </li>
+      </ul>
+<!--      <div class="center-content">-->
+<!--        <a class="btn btn-primary" style="background: #ff7236; color: #fff" [routerLink]="['/pages/category-book']">Xem Thêm</a>-->
+<!--      </div>-->
+      <div class="clearfix"></div>
+    </div>
+  </section>
+</div>
+<div id="features">
+  <section class="features">
+    <div class="container">
+      <ul>
+        <li class="bg-yellow">
+          <div class="feature-box">
+            <i class="yellow"></i>
+            <h3>Sách</h3>
+            <p>Ai đọc sách mà không biết được nhiều hơn những điều viết trong sách, người đó mới sử dụng sách có một nửa. Sách làm trí tuệ con người sâu sắc hơn và sáng sủa hơn.</p>
+<!--            <a class="yellow" href="#">-->
+<!--              View Selection <i class="fa fa-long-arrow-right"></i>-->
+<!--            </a>-->
+          </div>
+        </li>
+        <li class="bg-light-green">
+          <div class="feature-box">
+            <i class="light-green"></i>
+            <h3>Sách điện tử</h3>
+            <p>Ai đọc sách mà không biết được nhiều hơn những điều viết trong sách, người đó mới sử dụng sách có một nửa. Sách làm trí tuệ con người sâu sắc hơn và sáng sủa hơn.</p>
+          </div>
+        </li>
+        <li class="bg-blue">
+          <div class="feature-box">
+            <i class="blue"></i>
+            <h3>DVDs</h3>
+            <p>Ai đọc sách mà không biết được nhiều hơn những điều viết trong sách, người đó mới sử dụng sách có một nửa. Sách làm trí tuệ con người sâu sắc hơn và sáng sủa hơn.</p>
+          </div>
+        </li>
+        <li class="bg-red">
+          <div class="feature-box">
+            <i class="red"></i>
+            <h3>Tạp chí</h3>
+            <p>Ai đọc sách mà không biết được nhiều hơn những điều viết trong sách, người đó mới sử dụng sách có một nửa. Sách làm trí tuệ con người sâu sắc hơn và sáng sủa hơn.</p>
+          </div>
+        </li>
+        <li class="bg-violet">
+          <div class="feature-box">
+            <i class="violet"></i>
+            <h3>Âm thanh</h3>
+            <p>Ai đọc sách mà không biết được nhiều hơn những điều viết trong sách, người đó mới sử dụng sách có một nửa. Sách làm trí tuệ con người sâu sắc hơn và sáng sủa hơn.</p>
+          </div>
+        </li>
+        <li class="bg-green">
+          <div class="feature-box">
+            <i class="green"></i>
+            <h3>eAudio</h3>
+            <p>Ai đọc sách mà không biết được nhiều hơn những điều viết trong sách, người đó mới sử dụng sách có một nửa. Sách làm trí tuệ con người sâu sắc hơn và sáng sủa hơn.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>
+<div id="latest-blog">
+  <section class="latest-blog section-padding banner">
+    <div class="container">
+      <div class="center-content">
+        <h2 class="section-title">Tin mới nhất từ Blog</h2>
+        <span class="underline center lead"></span>
+<!--        <p class="lead">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.</p>-->
+      </div>
+      <div class="tabs-container">
+        <div class="tabs-menu">
+          <ul>
+            <li class="active">
+              <a class="bg-yellow">
+                <div class="title">
+                  <i class="yellow"></i>
+                  <h3>Sách</h3>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a class="bg-light-green">
+                <div class="title">
+                  <i class="light-green"></i>
+                  <h3>Sách điện tử</h3>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a class="bg-blue">
+                <div class="title">
+                  <i class="blue"></i>
+                  <h3>DVDS</h3>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a class="bg-red">
+                <div class="title">
+                  <i class="red"></i>
+                  <h3>Tạp chí</h3>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a class="bg-violet">
+                <div class="title">
+                  <i class="violet"></i>
+                  <h3>Âm thanh</h3>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a class="bg-green">
+                <div class="title">
+                  <i class="green"></i>
+                  <h3>eAudio</h3>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="tabs-list">
+          <div class="tab-content active">
+            <article>
+              <figure>
+                <img src="assets/images/latest-blog-img-home-v1.jpg" alt="Latest Blog">
+                <figcaption>
+                  <a>
+                    <span class="date">07</span>
+                    <span class="month">Mar</span>
+                  </a>
+                </figcaption>
+              </figure>
+              <div class="post-detail">
+                <div class="info-bar">
+                  <div class="comments">
+                    <a>
+                      <i class="fa fa-comment"></i> 37
+                    </a>
+                  </div>
+                  <div class="likes">
+                    <a>
+                      <i class="fa fa-thumbs-o-up"></i> 110
+                    </a>
+                  </div>
+                  <div class="viewed">
+                    <a>
+                      <i class="fa fa-eye"></i> 180
+                    </a>
+                  </div>
+                  <div class="share">
+                    <a>
+                      <i class="fa fa-share-alt"></i> Share
+                    </a>
+                  </div>
+                </div>
+                <h4>TỰ TRUYỆN BENJAMIN FRANKLIN</h4>
+                <div class="author">
+                  <a>
+                    <i class="fa fa-user"></i> Vũ Quốc Hưng
+                  </a>
+                </div>
+                <p class="text-justify">"Khi Hơi Thở Hóa Thinh Không" là một cuốn sách đặc biệt, mang đến cho độc giả nhiều cung bậc cảm xúc khác nhau,
+                  từ vui tươi cho đến buồn tủi, hạnh phúc lẫn ly tan, hy vọng nhưng rồi thất vọng... Mở đầu câu chuyện là hình ảnh bác sĩ Paul Kalanithi đã phẫu thuật cứu sống rất nhiều người. Nhưng mọi khát vọng dường như đều dập tắt, khi anh phát hiện mình bị ung thư phổi và phải điều trị lâu dài.</p>
+<!--                <a class="btn btn-dark-gray" >Đọc Thêm</a>-->
+              </div>
+            </article>
+          </div>
+          <div class="tab-content">
+            <article>
+              <figure>
+                <img src="assets/images/latest-blog-img-home-v1-2.jpg" alt="Latest Blog">
+                <figcaption>
+                  <a>
+                    <span class="date">06</span>
+                    <span class="month">Mar</span>
+                  </a>
+                </figcaption>
+              </figure>
+              <div class="post-detail">
+                <div class="info-bar">
+                  <div class="comments">
+                    <a>
+                      <i class="fa fa-comment"></i> 37
+                    </a>
+                  </div>
+                  <div class="likes">
+                    <a>
+                      <i class="fa fa-thumbs-o-up"></i> 110
+                    </a>
+                  </div>
+                  <div class="viewed">
+                    <a>
+                      <i class="fa fa-eye"></i> 180
+                    </a>
+                  </div>
+                  <div class="share">
+                    <a>
+                      <i class="fa fa-share-alt"></i> Share
+                    </a>
+                  </div>
+                </div>
+                <h4>ĐỌC SÁCH NHƯ MỘT NGHỆ THUẬT</h4>
+                <div class="author">
+                  <a>
+                    <i class="fa fa-user"></i> Vũ Quốc Hưng
+                  </a>
+                </div>
+                <p class="text-justify">Có một sự thật đau lòng: Chúng ta càng kết nối với nhau, chúng ta lại càng xa rời nhau. Bởi trong thế giới điên cuồng này, cuộc sống của chúng ta đang trở nên đông đúc, hỗn độn và ồn ào.
+                  Chưa bao giờ chúng ta cần chậm lại và cho phép bản thân trở nên im lặng như lúc này. "Nghệ Thuật Của Sự Tĩnh Lặng" của Pico Lyer nằm trong loạt sách TED (TED Books)</p>
+              </div>
+            </article>
+          </div>
+          <div class="tab-content">
+            <article>
+              <figure>
+                <img src="assets/images/latest-blog-img-home-v1.jpg" alt="Latest Blog">
+                <figcaption>
+                  <a>
+                    <span class="date">05</span>
+                    <span class="month">Mar</span>
+                  </a>
+                </figcaption>
+              </figure>
+              <div class="post-detail">
+                <div class="info-bar">
+                  <div class="comments">
+                    <a>
+                      <i class="fa fa-comment"></i> 37
+                    </a>
+                  </div>
+                  <div class="likes">
+                    <a>
+                      <i class="fa fa-thumbs-o-up"></i> 110
+                    </a>
+                  </div>
+                  <div class="viewed">
+                    <a>
+                      <i class="fa fa-eye"></i> 180
+                    </a>
+                  </div>
+                  <div class="share">
+                    <a>
+                      <i class="fa fa-share-alt"></i> Share
+                    </a>
+                  </div>
+                </div>
+                <h4>HOW BRANDS GROW</h4>
+                <div class="author">
+                  <a>
+                    <i class="fa fa-user"></i> Vũ Quốc Hưng
+                  </a>
+                </div>
+                <p class="text-justify">Đây được xem là "cuốn bí kíp" chứa đầy kinh nghiệm được truyền tải qua hơn 500 nhân vật vô cùng giàu có, nhưng tất cả đều bắt đầu sự nghiệp với hai bàn tay trắng. Vậy điều gì đã mang lại sự hào quang cho họ? Câu trả lời cuối cùng vẫn là phương pháp tư duy, cách thức rèn luyện và xây dựng ý tưởng kế hoạch có tổ chức.</p>
+              </div>
+            </article>
+          </div>
+          <div class="tab-content">
+            <article>
+              <figure>
+                <img src="assets/images/latest-blog-img-home-v1-2.jpg" alt="Latest Blog">
+                <figcaption>
+                  <a>
+                    <span class="date">04</span>
+                    <span class="month">Mar</span>
+                  </a>
+                </figcaption>
+              </figure>
+              <div class="post-detail">
+                <div class="info-bar">
+                  <div class="comments">
+                    <a>
+                      <i class="fa fa-comment"></i> 37
+                    </a>
+                  </div>
+                  <div class="likes">
+                    <a>
+                      <i class="fa fa-thumbs-o-up"></i> 110
+                    </a>
+                  </div>
+                  <div class="viewed">
+                    <a>
+                      <i class="fa fa-eye"></i> 180
+                    </a>
+                  </div>
+                  <div class="share">
+                    <a>
+                      <i class="fa fa-share-alt"></i> Share
+                    </a>
+                  </div>
+                </div>
+                <h4>NGHỆ THUẬT CỦA SỰ TĨNH LẶNG</h4>
+                <div class="author">
+                  <a>
+                    <i class="fa fa-user"></i> Vũ Quốc Hưng
+                  </a>
+                </div>
+                <p class="text-justify">"Nghệ Thuật Của Sự Tĩnh Lặng" của Pico Lyer nằm trong loạt sách TED (TED Books) – những cuốn sách nhỏ về những ý tưởng lớn (đủ ngắn để đọc một lượt, nhưng đủ dài để đào sâu vào một chủ đề). Bộ sách với chủ đề phong phú này bao trùm mọi vấn đề, từ kiến trúc đến kinh doanh, từ du hành vũ trụ đến tình yêu… dành cho những người có óc tò mò và yêu thích học tập.</p>
+              </div>
+            </article>
+          </div>
+          <div class="tab-content">
+            <article>
+              <figure>
+                <img src="assets/images/latest-blog-img-home-v1.jpg" alt="Latest Blog">
+                <figcaption>
+                  <a>
+                    <span class="date">03</span>
+                    <span class="month">Mar</span>
+                  </a>
+                </figcaption>
+              </figure>
+              <div class="post-detail">
+                <div class="info-bar">
+                  <div class="comments">
+                    <a>
+                      <i class="fa fa-comment"></i> 37
+                    </a>
+                  </div>
+                  <div class="likes">
+                    <a>
+                      <i class="fa fa-thumbs-o-up"></i> 110
+                    </a>
+                  </div>
+                  <div class="viewed">
+                    <a>
+                      <i class="fa fa-eye"></i> 180
+                    </a>
+                  </div>
+                  <div class="share">
+                    <a>
+                      <i class="fa fa-share-alt"></i> Share
+                    </a>
+                  </div>
+                </div>
+                <h4>HIỆU ỨNG LAN TRUYỀN</h4>
+                <div class="author">
+                  <a>
+                    <i class="fa fa-user"></i> Vũ Quốc Hưng
+                  </a>
+                </div>
+                <p class="text-justify">Bạn đang muốn xác nhận về chất lượng của một sản phẩm nào đó nhưng vẫn còn phân vân. Ngay sau đó, những chuyên gia, blogger và những người có ảnh hưởng liên quan đến sản phẩm xác nhận rằng họ đã sử dụng qua sản phẩm này và thấy hiệu quả, ngay lập tức bạn sẽ chọn mua sản phẩm mà không đắn đo gì nữa. Đấy được gọi là hiệu ứng lan truyền. </p>
+              </div>
+            </article>
+          </div>
+          <div class="tab-content">
+            <article>
+              <figure>
+                <img src="assets/images/latest-blog-img-home-v1-2.jpg" alt="Latest Blog">
+                <figcaption>
+                  <a>
+                    <span class="date">02</span>
+                    <span class="month">Mar</span>
+                  </a>
+                </figcaption>
+              </figure>
+              <div class="post-detail">
+                <div class="info-bar">
+                  <div class="comments">
+                    <a>
+                      <i class="fa fa-comment"></i> 37
+                    </a>
+                  </div>
+                  <div class="likes">
+                    <a>
+                      <i class="fa fa-thumbs-o-up"></i> 110
+                    </a>
+                  </div>
+                  <div class="viewed">
+                    <a>
+                      <i class="fa fa-eye"></i> 180
+                    </a>
+                  </div>
+                  <div class="share">
+                    <a>
+                      <i class="fa fa-share-alt"></i> Share
+                    </a>
+                  </div>
+                </div>
+                <h4>THE BOOK OF LEADERSHIP</h4>
+                <div class="author">
+                  <a>
+                    <i class="fa fa-user"></i> Vũ Quốc Hưng
+                  </a>
+                </div>
+                <p class="text-justify">Cuốn sách này dành cho cả những lãnh đạo dày dặn kinh nghiệm, đủ thông minh để biết rằng học tập không bao giờ ngừng nghỉ - rằng theo đuổi sự xuất chúng trong lãnh đạo là một hoạt động cả đời và cho những lãnh đạo mới bổ nhiệm, ham học hỏi thói quen lãnh đạo tốt ngay từ đầu.
+                  Dành cho những người muốn đội nhóm của họ đạt kết quả phi thường và cho lãnh đạo của những công ty lớn cũng như công ty nhỏ.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="backtop" class="" onclick="backtop()">
+  <i class="fa-solid fa-angle-up"></i>
+</div>

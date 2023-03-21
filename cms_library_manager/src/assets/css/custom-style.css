@@ -1,0 +1,15 @@
+.auth-container {
+    background-image: url('../images/background-auth.jpg');
+}
+
+.max-width__300 {
+  max-width: 300px;
+}
+
+.break-text-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}

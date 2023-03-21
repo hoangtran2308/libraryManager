@@ -1,0 +1,42 @@
+<div id="wrapper">
+  <div class="form-login">
+    <form class="form-login-group">
+      <h1 class="text-center">Đăng Ký</h1>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Tên đăng nhập</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail2">Email</label>
+        <input type="email" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp">
+      </div>
+      <div class="form-group" id="password">
+        <label for="exampleInputPassword1">Mật Khẩu</label>
+        <input type="{{!showEye ? 'password' : 'text'}}" class="form-control" id="exampleInputPassword1">
+        <div id="eye" (click)="showEye = !showEye">
+          <i class="fa-solid fa-eye" *ngIf="showEye"></i>
+          <i class=" fa-solid fa-eye-slash" *ngIf="!showEye"></i>
+        </div>
+      </div>
+      <div class="form-group" id="password1">
+        <label for="exampleInputPassword">Nhập lại mật khẩu</label>
+        <input type="{{!showEye1 ? 'password' : 'text'}}" class="form-control" id="exampleInputPassword">
+        <div id="eye1" (click)="showEye1 = !showEye1">
+          <i class="fa-solid fa-eye" *ngIf="showEye1"></i>
+          <i class=" fa-solid fa-eye-slash" *ngIf="!showEye1"></i>
+        </div>
+      </div>
+      <div class="register">
+        <button type="submit" class="btn btn-primary form-control">Đăng Ký</button>
+      </div>
+      <div>
+        <p>Bạn đã có tài khoản ?</p>
+      </div>
+      <div class="return-login">
+        <button type="submit" class="btn btn-primary form-control" [routerLink]="'/auth/login'">Trở lại đăng nhập</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>

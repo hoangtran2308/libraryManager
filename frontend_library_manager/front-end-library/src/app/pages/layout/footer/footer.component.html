@@ -1,0 +1,150 @@
+<div id="social-network">
+  <section class="social-network section-padding">
+    <div class="container">
+      <div class="center-content">
+        <h2 class="section-title">Theo dõi chúng tôi</h2>
+        <span class="underline center"></span>
+        <p class="lead">Theo dõi qua các mạng xã hội để cập nhật thông tin mới nhất của chúng tôi</p>
+      </div>
+      <div class="hung">
+      <ul class="">
+        <li class="title-edit-fb">
+          <a class="facebook" href="#" target="_blank">
+            <span><i class="fa fa-facebook-f"></i></span>
+          </a>
+        </li>
+        <li>
+          <a class="twitter" href="#" target="_blank">
+            <span><i class="fa fa-twitter"></i></span>
+          </a>
+        </li>
+        <li>
+          <a class="google" href="#" target="_blank">
+            <span><i class="fa fa-google-plus"></i></span>
+          </a>
+        </li>
+        <li>
+          <a class="rss" href="#" target="_blank">
+            <span><i class="fa fa-rss"></i></span>
+          </a>
+        </li>
+        <li>
+          <a class="linkedin" href="#" target="_blank">
+            <span><i class="fa fa-linkedin"></i></span>
+          </a>
+        </li>
+        <li>
+          <a class="youtube" href="#" target="_blank">
+            <span><i class="fa fa-youtube"></i></span>
+          </a>
+        </li>
+      </ul>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </section>
+</div>
+<footer class="site-footer">
+  <div class="container">
+    <div id="footer-widgets">
+      <div class="row">
+        <div class="col-md-3 col-sm-6 widget-container">
+          <div id="text-2" class="widget widget_text">
+            <h3 class="footer-widget-title">Địa chỉ</h3>
+            <span class="underline left"></span>
+            <!-- <div class="textwidget">
+                It is a long established fact that a reader will be distracted by the readable content of a page when looking.
+            </div> -->
+            <address>
+              <div class="info">
+                <i class="fa fa-location-arrow"></i>
+                <span><a href="https://www.google.com/maps/place/Compedia+Software/@21.0157956,105.8250618,21z/data=!4m5!3m4!1s0x3135ab8d0bfdb215:0x6a42c75b0fbd3dca!8m2!3d21.0158335!4d105.8251077">
+                  1/19 Trần Quang Diệu, Đống Đa, Hà Nội</a></span>
+              </div>
+              <div class="info">
+                <i class="fa fa-envelope"></i>
+                <span><a href="mailto:support@libraria.com">support@compedia.vn</a></span>
+              </div>
+              <div class="info">
+                <i class="fa fa-phone"></i>
+                <span><a href="tel:0988859692">0988.859.692</a></span>
+              </div>
+            </address>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 widget-container">
+          <div id="text-3" class="widget widget_text">
+            <h3 class="footer-widget-title">Danh mục</h3>
+            <span class="underline left"></span>
+            <div class="menu-quick-links-container">
+              <ul class="menu" (click)="onHeader()">
+                <div *ngFor="let categoryBook of listCategory; let i = index">
+                <li *ngIf="i<6">
+                  <a (click)="onSearchHeader(categoryBook.categoryId)"
+                     [routerLink]="['/pages/category-book/'+categoryBook.categoryId]"
+                  >{{categoryBook.categoryName}}</a>
+                </li>
+                </div>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix hidden-lg hidden-md hidden-xs tablet-margin-bottom"></div>
+        <div class="col-md-3 col-sm-6 widget-container">
+          <div id="text-4" class="widget widget_text">
+            <h3 class="footer-widget-title">Giới thiệu</h3>
+            <span class="underline left"></span>
+            <div class="timming-text-widget" (click)="onHeader()">
+              <div><a [routerLink]="['/pages/contact']" >Về chúng tôi</a></div>
+              <div><a [routerLink]="['/pages/blog']">Blog</a></div>
+              <div><a [routerLink]="['/pages/contact']">Liên hệ</a></div>
+              <div><a [routerLink]="['/pages/contact']">Hỗ trợ</a></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6 widget-container">
+          <div class="widget twitter-widget">
+            <h3 class="footer-widget-title">Mạng xã hội</h3>
+            <span class="underline left"></span>
+            <div>
+              <div class="info">
+                <i class="fa fa-brands fa-facebook"></i>
+                <span><a href="https://www.facebook.com/profile.php?id=100010120381641">  Facebook</a></span>
+              </div>
+              <div class="info">
+                <i class="fa fa-brands fa-youtube"></i>
+                <span><a href="https://www.facebook.com/profile.php?id=100010120381641">Youtube</a></span>
+              </div>
+              <div class="info">
+                <i class="fa fa-brands fa-twitter"></i>
+                <span><a href="https://www.facebook.com/profile.php?id=100010120381641">  Twitter</a></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sub-footer">
+    <div class="container">
+      <div class="row">
+        <div class="footer-text text-center">
+          <!-- <a target="_blank" href="https://www.templateshub.net">Templates Hub</a> -->
+          <p>TTS - COMPEDIA.VN</p>
+        </div>
+        <!-- <div class="col-md-9 pull-right">
+            <ul>
+                <li><a href="index-2.html">Home</a></li>
+                <li><a href="books-media-list-view.html">Books &amp; Media</a></li>
+                <li><a href="news-events-list-view.html">News &amp; Events</a></li>
+                <li><a href="#">Kids &amp; Teens</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="#">Research</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</footer>

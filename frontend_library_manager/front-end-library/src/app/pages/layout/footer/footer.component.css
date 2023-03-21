@@ -1,0 +1,31 @@
+
+
+.timming-text-widget a {
+  display: block;
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+
+.widget-container .info a:hover{
+  color: #ff7236;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+}
+/*.title_edit li{*/
+/*  width: 120px;*/
+/*  float: left;*/
+/*  align-item: center;*/
+
+
+/*}*/
+/*.title_edit li a{*/
+/*  width: 120px;*/
+/*  height: 120px;*/
+/*  diplay: flex;*/
+/*}*/
+

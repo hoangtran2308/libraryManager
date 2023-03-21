@@ -1,0 +1,417 @@
+<p-toast></p-toast>
+<div class="row" id="table-inverse">
+  <div class="col-12">
+    <div class="">
+      <div class="">
+        <div class="row">
+          <div class="col-md-9">
+            <h4 class="card-title title_heading">QUẢN LÝ MƯỢN TRẢ SÁCH</h4>
+          </div>
+          <div class="col-md-3 d-flex justify-content-end">
+            <a class="btn btn-info text-light add_new" type="button" data-toggle="modal" data-target="#exampleModal-bookmanager-new" (click)="loanpayInfoForm.reset()">Thêm mới <span><i class="fa-solid fa-plus"></i></span></a>
+          </div>
+        </div>
+      </div>
+      <div class="search">
+        <ul>
+          <li>
+<!--            <input class="form-control" type="text" [(ngModel)]="usernameSearch" placeholder="Tên tài khoản">-->
+            <p-autoComplete [(ngModel)]="usernameSearch" [showEmptyMessage]="false" [suggestions]="searchUsername"  (completeMethod)="onSearchUsernameLoanPay($event)" [minLength]="1" (onLazyLoad)="pageChange($event)" placeholder="Tên đăng nhập">
+            </p-autoComplete>
+          </li>
+          <li>
+            <input class="form-control" type="text"  [(ngModel)]="staffSearch"  placeholder="Tên nhân viên">
+          </li>
+
+          <li>
+            <p-dropdown [options]="listStatus" [(ngModel)]="isActionSearch" optionLabel="valueStatus" optionValue="id_status" placeholder="Trạng thái"></p-dropdown>
+          </li>
+
+          <li>
+<!--            <select class="form-control" [(ngModel)]="isActionSearch" >-->
+<!--              <option value="null" [disabled]="true" selected  >Hành động</option>-->
+<!--              <option value="0">empty</option>-->
+<!--              <option value="1">Đang trong thời gian mượn</option>-->
+<!--              <option value="2">Đã trả</option>-->
+<!--              <option value="3">Vi phạm</option>-->
+<!--            </select>-->
+
+            <p-dropdown [options]="listAction" [(ngModel)]="isActionSearch" optionLabel="action" optionValue="id" placeholder="Hành động"></p-dropdown>
+
+<!--            <p-dropdown [options]="loanPayManager" [(ngModel)]="isStatusSearch" optionLabel="status" optionValue="id" placeholder="Trạng thái"></p-dropdown>-->
+
+          </li>
+
+          <li>
+            <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onSearch()">Tìm kiếm</a>
+          </li>
+          <li>
+            <a class="btn btn-info text-light" type="button" data-toggle="modal" (click)="onReset()">Làm Mới </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+      <p-table [value]="loanPayManager"
+               [paginator]="true"
+               [lazy]="true"
+               [scrollable]="true"
+               [showPageLinks]="true"
+               (onLazyLoad)="pageChange($event)"
+               [rows]="size"
+               [(first)]="first"
+               [totalRecords]="totalElement"
+               [loadingIcon]="''"
+               [showLoader]="false"
+               [loading]="loading">
+        <ng-template pTemplate="header" class="dark">
+          <tr>
+            <th class="flex-60px">STT</th>
+            <th pSortableColumn="username">TÊN TÀI KHOẢN
+              <p-sortIcon field="username"></p-sortIcon>
+            </th>
+            <th pSortableColumn="book_name">TÊN SÁCH
+              <p-sortIcon field="book_name"></p-sortIcon>
+            </th>
+            <th pSortableColumn="amount">SỐ LƯỢNG
+              <p-sortIcon field="amount"></p-sortIcon>
+            </th>
+            <th pSortableColumn="start_date">NGÀY MƯỢN
+              <p-sortIcon field="start_date"></p-sortIcon>
+            </th>
+            <th pSortableColumn="end_date">NGÀY TRẢ
+              <p-sortIcon field="end_date"></p-sortIcon>
+            </th>
+            <th pSortableColumn="note">GHI CHÚ
+              <p-sortIcon field="note"></p-sortIcon>
+            </th>
+            <th pSortableColumn="status">TRẠNG THÁI
+              <p-sortIcon field="status"></p-sortIcon>
+            </th>
+            <th pSortableColumn="is_action">HÀNH ĐỘNG
+              <p-sortIcon field="is_action"></p-sortIcon>
+            </th>
+            <th pSortableColumn="name_staff">TÊN NHÂN VIÊN
+              <p-sortIcon field="name_staff"></p-sortIcon>
+            </th>
+            <th class="flex-100px">THAO TÁC</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+          <app-loan-pay-skeleton></app-loan-pay-skeleton>
+        </ng-template>
+        <ng-template pTemplate="body" let-i let-rowIndex="rowIndex">
+          <tr *ngIf="!loading">
+            <td class="flex-60px">{{rowIndex +1}}</td>
+            <td>{{i.username}}</td>
+            <td>{{i.book_name}}</td>
+            <td>{{i.amount}}</td>
+            <td>{{i.start_date}}</td>
+            <td>{{i.end_date}}</td>
+            <td>{{i.note}}</td>
+<!--            <td>{{i.status}}</td>-->
+            <ng-container *ngIf="i.status ==0 ">
+              <td>
+                  Chưa duyệt
+              </td>
+            </ng-container>
+            <ng-container *ngIf="i.status ==1 ">
+              <td>
+                Đã duyệt
+              </td>
+            </ng-container>
+            <ng-container *ngIf="i.status ==2 ">
+              <td>
+                Không cho mượn
+              </td>
+            </ng-container>
+<!--            <ng-container *ngIf="i.status == 3"><td>Không cho mượn</td></ng-container>-->
+
+
+<!--            <td>{{i.is_action}}</td>-->
+
+
+            <ng-container *ngIf="i.is_action ==0 ">
+              <td>
+                Empty
+              </td>
+            </ng-container>
+            <ng-container *ngIf="i.is_action ==1 ">
+              <td>
+                Đang trong thời gian mượn
+              </td>
+            </ng-container>
+            <ng-container *ngIf="i.is_action ==2 ">
+              <td>
+                Đã trả
+              </td>
+            </ng-container>
+            <ng-container *ngIf="i.is_action == 3"><td>Vi phạm</td></ng-container>
+
+
+<!--            <td>{{i.name_staff}}</td>-->
+<!--            <td>-->
+<!--              <a type="button" data-toggle="modal" data-target="#is_acction" (click)="editIsAction(i)"><i class="fa-solid fa-hands-asl-interpreting"></i></a>-->
+
+<!--            <ng-container *ngIf="i.is_action ==0 ">-->
+<!--              <td>-->
+<!--                empty-->
+<!--              </td>-->
+<!--            </ng-container>-->
+<!--            <ng-container *ngIf="i.is_action ==1 ">-->
+<!--              <td>-->
+<!--                Đang trong thời gian mượn-->
+<!--              </td>-->
+<!--            </ng-container>-->
+<!--            <ng-container *ngIf="i.is_action == 2"><td>Đã trả</td></ng-container>-->
+
+<!--            <ng-container *ngIf="i.is_action == 3"><td>Vi phạm</td></ng-container>-->
+            <td>{{i.name_staff}}</td>
+            <td class="flex-100px">
+              <a type="button" data-toggle="modal" data-target="#is_acction" (click)="editIsAction(i)"><i class="fa-solid fa-hands-asl-interpreting"></i></a>
+              <a type="button" data-toggle="modal" data-target="#exampleModal-bookmanager" (click)="editLoanpay(i)"><i class="fa-solid fa-pen-to-square"></i></a>
+              <a type="button" data-toggle="modal" data-target="#delete-book-manager" (click)="selectLoanpay(i)"><i class="fa-solid fa-trash-can"></i></a>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft" let-state>
+          <td colspan="5">Tổng số bản ghi: {{state.totalRecords}}</td>
+        </ng-template>
+      </p-table>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal-bookmanager-new" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" [formGroup]="loanpayInfoForm">
+          <div class="modal-content border-0">
+            <div class="modal-header" style="background: #2C3333">
+              <h5 class="modal-title" id="exampleModalLabel" style="color: white">Thêm mới</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" style="color: white">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+              <div class="form-group row">
+                <label  class="col-sm-2 col-form-label">Tên Tài Khoản <span style="color: red">*</span></label>
+                <div class="col-sm-10">
+<!--                  <select class="form-control" formControlName="account_id" id="account_id">-->
+<!--                    <option *ngFor="let username of listAccount" value="{{username.id}}">-->
+<!--                      <span>{{username.username}}</span>-->
+<!--                    </option>-->
+<!--                  </select>-->
+                  <p-dropdown  [options]="listAccount" formControlName="account_id" optionLabel="username" optionValue="id" placeholder="Tên tài khoản" [filter]="true"></p-dropdown>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label  class="col-sm-2 col-form-label">Tên Sách <span style="color: red">*</span></label>
+                <div class="col-sm-10">
+<!--                  <select class="form-control" formControlName="book_id" id="book_id">-->
+<!--                    <option *ngFor="let bookName of listBook" value="{{bookName.book_id}}">-->
+<!--                      <span>{{bookName.book_name}}</span>-->
+<!--                    </option>-->
+<!--                  </select>-->
+                  <p-dropdown  [options]="listBook" formControlName="book_id" optionLabel="book_name" optionValue="book_id" placeholder="Tên sách" [filter]="true"></p-dropdown>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Số Lượng <span style="color: red">*</span></label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="amount" formControlName="amount">
+                </div>
+              </div>
+
+
+              <div class="form-group row">
+                <label for="date_pay" class="col-sm-2 col-form-label">Ngày Trả <span style="color: red">*</span></label>
+                <div class="col-sm-10">
+                  <input type="date" class="form-control" id="date_pay" formControlName="end_date">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="note" class="col-sm-2 col-form-label">Ghi Chú <span style="color: red">*</span></label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="note" formControlName="note">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label  class="col-sm-2 col-form-label">Tên Nhân Viên <span style="color: red">*</span></label>
+                <div class="col-sm-10">
+<!--                  <select class="form-control" formControlName="staff_id" id="staff_id">-->
+<!--                    <option *ngFor="let name_staff of listStaff" value="{{name_staff.id}}">-->
+<!--                      <span>{{name_staff.name}}</span>-->
+<!--                    </option>-->
+<!--                  </select>-->
+                  <p-dropdown  [options]="listStaff" formControlName="staff_id" optionLabel="name" optionValue="id" placeholder="Tên nhân viên" [filter]="true"></p-dropdown>
+                </div>
+              </div>
+
+            </div>
+            <div class="modal-footer border-0">
+              <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onAddNewLoanpay()" data-dismiss="modal">Thêm mới</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+                                          <!-- update -->
+      <div class="modal fade" id="exampleModal-bookmanager" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" [formGroup]="loanpayInfoForm">
+          <div class="modal-content border-0">
+            <div class="modal-header" style="background: #2C3333">
+              <h5 class="modal-title" id="exampleModalLabel" style="color: white">Chỉnh sửa</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true" style="color: white">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Tên Tài Khoản <span style="color: red">*</span></label>
+                <div class="col-sm-10">
+                  <p-dropdown  [options]="listAccount" formControlName="account_id" optionLabel="username" optionValue="id" placeholder="Tên tài khoản" [filter]="true"></p-dropdown>
+<!--                  <select class="form-control" formControlName="account_id" id="account_id">-->
+<!--                    <option *ngFor="let username of listAccount" value="{{username.id}}">-->
+<!--                      <span>{{username.username}}</span>-->
+<!--                    </option>-->
+<!--                  </select>-->
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label  class="col-sm-2 col-form-label">Tên Sách <span style="color: red">*</span></label>
+                <div class="col-sm-10">
+                  <p-dropdown  [options]="listBook" formControlName="book_id" optionLabel="book_name" optionValue="book_id" placeholder="Tên sách" [filter]="true"></p-dropdown>
+<!--                  <select class="form-control" formControlName="book_id" id="book_id">-->
+<!--                    <option *ngFor="let bookName of listBook" value="{{bookName.book_id}}">-->
+<!--                      <span>{{bookName.book_name}}</span>-->
+<!--                    </option>-->
+<!--                  </select>-->
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Số Lượng <span style="color: red">*</span></label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="amount" formControlName="amount">
+                </div>
+              </div>
+
+
+              <div class="form-group row">
+                <label for="date_pay" class="col-sm-2 col-form-label">Ngày Trả <span style="color: red">*</span></label>
+                <div class="col-sm-10">
+                  <input type="date" class="form-control" id="date_pay" formControlName="end_date">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="note" class="col-sm-2 col-form-label">Ghi Chú <span style="color: red">*</span></label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="note" formControlName="note">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Trạng thái <span style="color: red">*</span></label>
+                <div class="col-sm-10">
+                  <select class="form-control" formControlName="status" id="status">
+                    <option value="0">Chưa duyệt</option>
+                    <option value="1">Đã duyệt</option>
+                    <option value="2">Không cho mượn</option>
+                  </select>
+                </div>
+              </div>
+<!--              <div class="form-group row">-->
+<!--                <label for="note" class="col-sm-2 col-form-label">Trạng thái <span style="color: red">*</span></label>-->
+<!--                <div class="col-sm-10">-->
+<!--                  <input type="text" class="form-control" id="note" formControlName="status">-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="form-group row">-->
+<!--                <label class="col-sm-2 col-form-label">Hoạt động <span style="color: red">*</span></label>-->
+<!--                <div class="col-sm-10">-->
+<!--                  <select class="form-control" formControlName="is_action" id="is_action">-->
+<!--                    <option value="0">empty</option>-->
+<!--                    <option value="1">Đang trong thời gian mượn</option>-->
+<!--                    <option value="2">Đã trả</option>-->
+<!--                    <option value="3">Vi phạm</option>-->
+
+<!--                  </select>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              <div class="form-group row">-->
+<!--                <label class="col-sm-2 col-form-label">Tên Nhân Viên <span style="color: red">*</span></label>-->
+<!--                <div class="col-sm-10">-->
+<!--&lt;!&ndash;                  <select class="form-control" formControlName="staff_id" id="staff_id">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <option *ngFor="let name_staff of listStaff" value="{{name_staff.id}}">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <span>{{name_staff.name}}</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </option>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </select>&ndash;&gt;-->
+<!--                  <p-dropdown  [options]="listStaff" formControlName="staff_id" optionLabel="name" optionValue="id" placeholder="Tên nhân viên" [filter]="true"></p-dropdown>-->
+<!--                </div>-->
+<!--              </div>-->
+
+            </div>
+            <div class="modal-footer border-0">
+              <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onEditLoanpay()" data-dismiss="modal">Cập Nhật</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+<!--  model is_action-->
+  <div class="modal fade" id="is_acction" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" [formGroup]="loanpayInfoForm">
+      <div class="modal-content border-0">
+        <div class="modal-header" style="background: #2C3333">
+          <h5 class="modal-title" id="exampleModalLabel" style="color: white">Chỉnh sửa hành động</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="color: white">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Hành động <span style="color: red">*</span></label>
+            <div class="col-sm-10">
+                  <select class="form-control" formControlName="is_action" id="type">
+                    <option value="1">Đã trả</option>
+                    <option value="2">Vi phạm</option>
+                  </select>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-primary" style="font-size: 18px" (click)="onEditAction()" data-dismiss="modal">Cập Nhật</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- Modal -->
+      <div class="modal fade" id="delete-book-manager" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header border-0">
+              <h5 class="modal-title" id="">Bạn có muốn xóa không ?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer border-0">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+              <button type="button" class="btn btn-primary" (click)="onDeleteLoanpay()"data-dismiss="modal">Có</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
